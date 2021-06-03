@@ -1,25 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+// import './App.css';
+// import Leaflet from './components/leaflet'
+import Kepler from './components/kepler'
+//import Home from './Home'
+import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
+import kepler from './components/kepler';
 
-function App() {
+
+
+export default function App() {
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <Router>
+        <Switch>
+          {/* <Route path="/" exact component={Leaflet} /> */}
+          <Route path="/kepler" component={kepler} />
+          {/* render={(props) =>(<Kepler {...props} />)}/> */}
+          {/* <Route path="/leaflet"
+            render={(props) => (
+              <Leaflet />
+            )}
+          /> */}
+        </Switch>
+    </Router>
+    
+  )
 }
-
-export default App;
+  
+  
