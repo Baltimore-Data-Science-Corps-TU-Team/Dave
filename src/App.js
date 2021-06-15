@@ -6,14 +6,13 @@ import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
 import kepler from './components/kepler';
 
 
-
 export default function App() {
 
   return (
     <Router>
         <Switch>
           {/* <Route path="/" exact component={Leaflet} /> */}
-          <Route path="/kepler" component={kepler} />
+          <Route path="/" exact component={kepler} />
           {/* render={(props) =>(<Kepler {...props} />)}/> */}
           {/* <Route path="/leaflet"
             render={(props) => (
