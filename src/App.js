@@ -1,10 +1,8 @@
 // import './App.css';
 // import Leaflet from './components/leaflet'
-import Kepler from './components/kepler'
+import Kepler from './components/Kepler'
 //import Home from './Home'
 import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
-import kepler from './components/kepler';
-
 
 export default function App() {
 
@@ -12,7 +10,7 @@ export default function App() {
     <Router>
         <Switch>
           {/* <Route path="/" exact component={Leaflet} /> */}
-          <Route path="/" exact component={kepler} />
+          <Route path="/" exact component={Kepler} />
           {/* render={(props) =>(<Kepler {...props} />)}/> */}
           {/* <Route path="/leaflet"
             render={(props) => (
@@ -21,8 +19,5 @@ export default function App() {
           /> */}
         </Switch>
     </Router>
-    
   )
 }
-  
-  

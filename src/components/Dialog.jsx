@@ -9,9 +9,8 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import FormControl from '@material-ui/core/FormControl';
-// import DateRangeSelector from '../components/DateRangeSelector';
 // import MultipleSelectChip from '../components/MultipleSelect';
-import MaterialUIPickers from '../components/DateSelector';
+import DateSelectors from './DateSelectors';
 import CrimeSelect from '../components/Autocomplete';
 
 const useStyles = makeStyles((theme) => ({
@@ -30,15 +29,18 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function FormDialog() {
+export default function FormDialog(
+    startDate, endDate, crimeDescription,
+    handleStartDateChange, handleEndDateChange,
+    handleCrimeDescriptionChange, handleSubmit
+) {
+
     const classes = useStyles();
 
     const [isOpen, setIsOpen] = useState(false);
-
     const handleClickOpen = () => {
         setIsOpen(true);
     };
-
     const handleClose = () => {
         setIsOpen(false);
     };
@@ -57,17 +59,26 @@ export default function FormDialog() {
                     </DialogContentText>
                     <form className={classes.form} noValidate>
                         <FormControl className={classes.formControl}>
-                            <MaterialUIPickers />
+                            <DateSelectors
+                                startDate={startDate}
+                                endDate={endDate}
+                                handleStartDateChange={handleStartDateChange}
+                                handleEndDateChange={handleEndDateChange}
+                                handleSubmit={handleSubmit}
+                            />
                             <br />
-                            <CrimeSelect />
+                            <CrimeSelect
+                                crimeDescription={crimeDescription}
+                                handleCrimeDescriptionChange={handleCrimeDescriptionChange}
+                            />
                         </FormControl>
                     </form>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose} color="primary">
+                    <Button onClick={handleClose}>
                         Cancel
                     </Button>
-                    <Button onClick={handleClose} color="primary">
+                    <Button onClick={handleSubmit} color="primary">
                         Search
                     </Button>
                 </DialogActions>

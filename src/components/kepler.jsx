@@ -1,18 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import keplerGlReducer from 'kepler.gl/reducers';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { taskMiddleware } from 'react-palm/tasks';
 import { Provider, useDispatch } from 'react-redux';
 import KeplerGl from 'kepler.gl';
 import { addDataToMap } from 'kepler.gl/actions';
-import AccordionForm from '../components/accordionForm';
-import MultipleSelectChip from '../components/MultipleSelect';
-import FormDialog from '../components/Dialog';
+import AccordionForm from './AccordionForm';
+import FormDialog from './Dialog';
 import { processGeojson } from 'kepler.gl/processors';
-import { fetchDataFrame } from '../api';
 
-// import data from '../data/dataset'
+import { fetchDataFrame, fetchDataFrame2 } from '../api';
+
 const customKeplerReducer = keplerGlReducer.initialState({
     uiState: {
         activeSidePanel: null,
@@ -26,21 +24,13 @@ const reducer = combineReducers({
 
 const store = createStore(reducer, {}, applyMiddleware(taskMiddleware));
 
-function Map() {
+function Map(fetchedDataFrame) {
 
-    const [fetchedDataFrame, setFetchedDataFrame] = useState([]);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        const fetchApi = async () => {
-            setFetchedDataFrame(await fetchDataFrame())    
-        }
-        fetchApi();
-    }, [setFetchedDataFrame])
-
-    useEffect(() => {
         if (fetchedDataFrame) {
-            console.log("resp", fetchedDataFrame)
+            console.log("data frame->", fetchedDataFrame.fetchedDataFrame)
             dispatch(
                 addDataToMap({
                     datasets: {
@@ -48,7 +38,7 @@ function Map() {
                             label: 'crime',
                             id: 'crime-baltimore'
                         },
-                        data: fetchedDataFrame
+                        data: fetchedDataFrame.fetchedDataFrame
                     },
                     option: {
                         centerMap: true,
@@ -72,13 +62,11 @@ function Map() {
         }
     }, [dispatch, fetchedDataFrame])
 
-
-
     return (
         <div>
             <KeplerGl
                 id="1"
-                mapboxApiAccessToken={"pk.eyJ1IjoiZGF2LW4iLCJhIjoiY2twYXV0aXloMGRxdzJwbzRoNjA1N2tyaiJ9.d_eAHzXAXQh1xj2qMgaWpA"}
+                mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_API}
                 width={window.innerWidth}
                 height={window.innerHeight}
                 appName={'Data Science Corps'}
@@ -87,22 +75,8 @@ function Map() {
     )
 }
 
-export default function kepler() {
 
-    // const [startDate, setStartDate] = useState('');
-    // const [endDate, setEndDate] = useState('');
-    // const [crimeDescription, setCrimeDescription] = useState([]);
-
-    // const handleStartDateChange = (date) => {
-    //     setStartDate(date)
-    // }
-    // const handleEndateChange = (date) => {
-    //     setEndDate(date)
-    // }
-    // const handleCrimeDescription = (crime) => {
-    //     setCrimeDescription(crime)
-    // }
-
+export default function Kepler() {
     const mystyle = {
         wrapper: {
             position: "relative",
@@ -115,15 +89,52 @@ export default function kepler() {
         }
     };
 
+    const [startDate, setStartDate] = useState('');
+    const [endDate, setEndDate] = useState('');
+    const [crimeDescription, setCrimeDescription] = useState([]);
+    const [fetchedDataFrame, setFetchedDataFrame] = useState(undefined);
+    const [mapConfig, setMapConfig] = useState();
+
+    const handleStartDateChange = (date) => {
+        setStartDate(date)
+    }
+    const handleEndDateChange = (date) => {
+        setEndDate(date)
+    }
+    const handleCrimeDescriptionChange = (event, newValue) => {
+        setCrimeDescription(newValue)
+    }
+    const handleSubmit = async (event, newValue) => {
+        console.log(startDate, endDate, crimeDescription)
+        event.preventDefault();
+        setFetchedDataFrame(await fetchDataFrame2(startDate, endDate, crimeDescription))
+    }
+
+    useEffect(() => {
+        const fetchApi = async () => {
+            const FetchedDataFrame = await fetchDataFrame()
+            setFetchedDataFrame(processGeojson(FetchedDataFrame))
+        }
+        fetchApi();
+    }, [setFetchedDataFrame])
+
     return (
         <Provider store={store}>
             <div style={mystyle.wrapper} id="wrapper">
                 <div id="google_map">
-                    <Map />
+                    <Map fetchedDataFrame={fetchedDataFrame} />
                 </div>
 
                 <div style={mystyle.over_map} id="over_map">
-                    <FormDialog />
+                    <FormDialog
+                        startDate={startDate}
+                        endDate={endDate}
+                        crimeDescription={crimeDescription}
+                        handleStartDateChange={handleStartDateChange}
+                        handleEndDateChange={handleEndDateChange}
+                        handleCrimeDescriptionChange={handleCrimeDescriptionChange}
+                        handleSubmit={handleSubmit}
+                    />
                 </div>
             </div>
         </Provider>

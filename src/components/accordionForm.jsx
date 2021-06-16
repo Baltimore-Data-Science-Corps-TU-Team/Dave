@@ -9,8 +9,6 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
-import DateRangeSelector from '../components/DateRangeSelector';
-import MultipleSelectChip from '../components/MultipleSelect';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -70,10 +68,9 @@ export default function AccordionForm() {
                 </AccordionSummary>
                 <AccordionDetails className={classes.details}>
                     <div className={classes.column} >
-                        <DateRangeSelector/>
+                        
                     </div>
                     <div className={classes.column}>
-                        <MultipleSelectChip/>
                     </div>
                     <div className={clsx(classes.column, classes.helper)}>
                         <Typography variant="caption">

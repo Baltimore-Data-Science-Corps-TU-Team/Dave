@@ -1,5 +1,4 @@
 /* eslint-disable no-use-before-define */
-import { useState } from 'react';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -12,6 +11,7 @@ const useStyles = makeStyles((theme) => ({
         },
     },
 }));
+
 const crimes = [
     'Homicide',
     'Arson',
@@ -20,15 +20,11 @@ const crimes = [
     'Shoplifting'
 ];
 
-export default function CrimeSelect() {
-    const [crimeDescription, setCrimeDescription] = useState([]);
-
-    const handleCrimeDescriptionChange = (event, newValue) => {
-        setCrimeDescription(newValue);
-    };
+export default function CrimeSelect(crimeDescription, handleCrimeDescriptionChange) {
 
     const classes = useStyles();
-    console.log(crimeDescription)
+    console.log("crime description ->", crimeDescription)
+
     return (
         <div className={classes.root}>
             <Autocomplete

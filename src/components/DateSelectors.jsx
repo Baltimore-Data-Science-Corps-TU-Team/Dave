@@ -1,13 +1,10 @@
 import 'date-fns';
 import { useState } from 'react';
 import Grid from '@material-ui/core/Grid';
-import DateFnsUtils from '@date-io/date-fns';
-import {
-    MuiPickersUtilsProvider,
-    KeyboardDatePicker,
-} from '@material-ui/pickers';
 import { format, isValid } from 'date-fns';
+import DateFnsUtils from '@date-io/date-fns';
 import { makeStyles } from '@material-ui/core/styles';
+import {MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -18,20 +15,15 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function MaterialUIPickers() {
-    // The first commit of Material-UI
+export default function DateSelectors(
+    startDate,
+    endDate,
+    handleStartDateChange,
+    handleEndDateChange
+    ) {
+
     const classes = useStyles();
 
-    const [startDate, setStartDate] = useState();
-    const [endDate, setEndDate] = useState();
-
-    const handleStartDateChange = (date) => {
-        setStartDate(date);
-    };
-    const handleEndDateChange = (date) => {
-        setEndDate(date);
-    };
-    console.log([startDate, endDate])
     return (
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <Grid className={classes.root} container justify="space-around">
@@ -56,7 +48,7 @@ export default function MaterialUIPickers() {
                     id="end-date"
                     label="End Date"
                     format="MM/dd/yyyy"
-                    value={(endDate) ? endDate : null}
+                    value={(endDate) ? endDate : new Date()}
                     minDate={(startDate) ? new Date(startDate) : null}
                     onChange={handleEndDateChange}
                     KeyboardButtonProps={{
