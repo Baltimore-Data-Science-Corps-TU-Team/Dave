@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import Fab from '@material-ui/core/Fab';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import { makeStyles } from '@material-ui/core/styles';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -9,9 +8,9 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import FormControl from '@material-ui/core/FormControl';
-// import MultipleSelectChip from '../components/MultipleSelect';
 import DateSelectors from './DateSelectors';
-import CrimeSelect from '../components/Autocomplete';
+import CrimeSelect from './CrimeSelect';
+import RadioMapConfig from './RadioMapConfig';
 
 const useStyles = makeStyles((theme) => ({
     form: {
@@ -29,11 +28,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function FormDialog(
-    startDate, endDate, crimeDescription,
-    handleStartDateChange, handleEndDateChange,
-    handleCrimeDescriptionChange, handleSubmit
-) {
+export default function FormDialog({ crimeDescription, handleCrimeDescriptionChange, mapConfig, handleMapConfigChange, handleSubmit, ...props }) {//{ crimeDescription handleCrimeDescriptionChange mapConfig handleMapConfigChange, ...props }
 
     const classes = useStyles();
 
@@ -48,7 +43,6 @@ export default function FormDialog(
     return (
         <div>
             <Fab variant="extended" size="large" onClick={handleClickOpen}>
-                {/* <NavigationIcon className={classes.extendedIcon} /> */}
                 Load Data to the Map
             </Fab>
             <Dialog open={isOpen} onClose={handleClose} aria-labelledby="form-dialog-title">
@@ -60,16 +54,17 @@ export default function FormDialog(
                     <form className={classes.form} noValidate>
                         <FormControl className={classes.formControl}>
                             <DateSelectors
-                                startDate={startDate}
-                                endDate={endDate}
-                                handleStartDateChange={handleStartDateChange}
-                                handleEndDateChange={handleEndDateChange}
-                                handleSubmit={handleSubmit}
+                                {...props}
                             />
                             <br />
                             <CrimeSelect
                                 crimeDescription={crimeDescription}
                                 handleCrimeDescriptionChange={handleCrimeDescriptionChange}
+                            />
+                            <br />
+                            <RadioMapConfig
+                                mapConfig={mapConfig}
+                                handleMapConfigChange={handleMapConfigChange}
                             />
                         </FormControl>
                     </form>

@@ -20,7 +20,7 @@ const crimes = [
     'Shoplifting'
 ];
 
-export default function CrimeSelect(crimeDescription, handleCrimeDescriptionChange) {
+export default function CrimeSelect({ crimeDescription, handleCrimeDescriptionChange }) {
 
     const classes = useStyles();
     console.log("crime description ->", crimeDescription)

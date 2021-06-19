@@ -1,7 +1,5 @@
 import 'date-fns';
-import { useState } from 'react';
 import Grid from '@material-ui/core/Grid';
-import { format, isValid } from 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
 import { makeStyles } from '@material-ui/core/styles';
 import {MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
@@ -15,13 +13,9 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function DateSelectors(
-    startDate,
-    endDate,
-    handleStartDateChange,
-    handleEndDateChange
-    ) {
+export default function DateSelectors({ startDate, endDate, handleEndDateChange, handleStartDateChange }) {
 
+    console.log("start date ->", handleStartDateChange)
     const classes = useStyles();
 
     return (
@@ -32,10 +26,10 @@ export default function DateSelectors(
                     margin="normal"
                     id="start-date"
                     label="Start Date"
-                    format="MM/dd/yyyy"
+                    format="yyyy-MM-dd"
                     allowKeyboardControl={false}
                     maxDate={new Date()}
-                    value={(startDate) ? startDate : null}
+                    value={startDate}
                     onChange={handleStartDateChange}
                     KeyboardButtonProps={{
                         'aria-label': 'change date',
@@ -47,8 +41,8 @@ export default function DateSelectors(
                     margin="normal"
                     id="end-date"
                     label="End Date"
-                    format="MM/dd/yyyy"
-                    value={(endDate) ? endDate : new Date()}
+                    format="yyyy-MM-dd"
+                    value={endDate}
                     minDate={(startDate) ? new Date(startDate) : null}
                     onChange={handleEndDateChange}
                     KeyboardButtonProps={{

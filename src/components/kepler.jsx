@@ -9,7 +9,7 @@ import AccordionForm from './AccordionForm';
 import FormDialog from './Dialog';
 import { processGeojson } from 'kepler.gl/processors';
 
-import { fetchDataFrame, fetchDataFrame2 } from '../api';
+import { fetchCrimeGeoJson, fetchBoundaryGeoJson } from '../api';
 
 const customKeplerReducer = keplerGlReducer.initialState({
     uiState: {
@@ -89,11 +89,16 @@ export default function Kepler() {
         }
     };
 
-    const [startDate, setStartDate] = useState('');
-    const [endDate, setEndDate] = useState('');
+    const [startDate, setStartDate] = useState(new Date());
+    const [endDate, setEndDate] = useState(new Date());
     const [crimeDescription, setCrimeDescription] = useState([]);
-    const [fetchedDataFrame, setFetchedDataFrame] = useState(undefined);
-    const [mapConfig, setMapConfig] = useState();
+    const [fetchedCrimeDataFrame, setFetchedCrimeDataFrame] = useState(undefined);
+    const [fetchedBoundaryDataFrame, setFetchedBoundaryDataFrame] = useState(undefined);
+    const [mapConfig, setMapConfig] = useState('');
+
+    const handleMapConfigChange = (event) => {
+        setMapConfig(event.target.value);
+    };
 
     const handleStartDateChange = (date) => {
         setStartDate(date)
@@ -107,36 +112,50 @@ export default function Kepler() {
     const handleSubmit = async (event, newValue) => {
         console.log(startDate, endDate, crimeDescription)
         event.preventDefault();
-        setFetchedDataFrame(await fetchDataFrame2(startDate, endDate, crimeDescription))
+        const fetchedCrimeGeoJson = (await fetchCrimeGeoJson(startDate, endDate, crimeDescription))
+        setFetchedCrimeDataFrame(processGeojson(fetchedCrimeGeoJson))
     }
 
     useEffect(() => {
         const fetchApi = async () => {
-            const FetchedDataFrame = await fetchDataFrame()
-            setFetchedDataFrame(processGeojson(FetchedDataFrame))
+            const fetchedBoundaryGeoJson = await fetchBoundaryGeoJson()
+            setFetchedBoundaryDataFrame(processGeojson(fetchedBoundaryGeoJson))
         }
         fetchApi();
-    }, [setFetchedDataFrame])
+    }, [])
 
     return (
         <Provider store={store}>
-            <div style={mystyle.wrapper} id="wrapper">
+            {/* <div style={mystyle.wrapper} id="wrapper">
                 <div id="google_map">
                     <Map fetchedDataFrame={fetchedDataFrame} />
                 </div>
 
                 <div style={mystyle.over_map} id="over_map">
                     <FormDialog
-                        startDate={startDate}
+                        startDate
                         endDate={endDate}
                         crimeDescription={crimeDescription}
+                        mapConfig={mapConfig}
                         handleStartDateChange={handleStartDateChange}
                         handleEndDateChange={handleEndDateChange}
                         handleCrimeDescriptionChange={handleCrimeDescriptionChange}
+                        handleMapConfigChange={handleMapConfigChange}
                         handleSubmit={handleSubmit}
                     />
                 </div>
-            </div>
+            </div> */}
+            <FormDialog
+                        startDate={startDate}
+                        endDate={endDate}
+                        crimeDescription={crimeDescription}
+                        mapConfig={mapConfig}
+                        handleStartDateChange={handleStartDateChange}
+                        handleEndDateChange={handleEndDateChange}
+                        handleCrimeDescriptionChange={handleCrimeDescriptionChange}
+                        handleMapConfigChange={handleMapConfigChange}
+                        handleSubmit={handleSubmit}
+                    />
         </Provider>
     )
 }
