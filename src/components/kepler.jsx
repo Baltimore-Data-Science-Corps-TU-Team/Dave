@@ -8,6 +8,7 @@ import { addDataToMap } from 'kepler.gl/actions';
 import AccordionForm from './AccordionForm';
 import FormDialog from './Dialog';
 import { processGeojson } from 'kepler.gl/processors';
+import Map from './Map';
 
 import { fetchCrimeGeoJson, fetchBoundaryGeoJson } from '../api';
 
@@ -24,57 +25,22 @@ const reducer = combineReducers({
 
 const store = createStore(reducer, {}, applyMiddleware(taskMiddleware));
 
-function Map(fetchedDataFrame) {
-
-    const dispatch = useDispatch();
-
-    useEffect(() => {
-        if (fetchedDataFrame) {
-            console.log("data frame->", fetchedDataFrame.fetchedDataFrame)
-            dispatch(
-                addDataToMap({
-                    datasets: {
-                        info: {
-                            label: 'crime',
-                            id: 'crime-baltimore'
-                        },
-                        data: fetchedDataFrame.fetchedDataFrame
-                    },
-                    option: {
-                        centerMap: true,
-                        readOnly: false
-                    },
-                    config: {
-                        visState: {
-                            filters: [
-                                // {
-                                //     id: 'me',
-                                //     dataId: 'test_trip_data',
-                                //     name: 'tpep_pickup_datetime',
-                                //     type: 'timeRange',
-                                //     enlarged: true
-                                // }
-                            ]
-                        }
-                    }
-                })
-            )
-        }
-    }, [dispatch, fetchedDataFrame])
-
-    return (
-        <div>
-            <KeplerGl
-                id="1"
-                mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_API}
-                width={window.innerWidth}
-                height={window.innerHeight}
-                appName={'Data Science Corps'}
-            />
-        </div>
-    )
+function getMapConfig(id) {
+    switch (id) {
+        case 0:
+            return ``
+        case 1:
+            return ``
+        case 2:
+            return ``
+        case 3:
+            return ``
+        case 4:
+            return ``
+        default:
+            return ``
+    }
 }
-
 
 export default function Kepler() {
     const mystyle = {
@@ -128,12 +94,15 @@ export default function Kepler() {
         <Provider store={store}>
             {/* <div style={mystyle.wrapper} id="wrapper">
                 <div id="google_map">
-                    <Map fetchedDataFrame={fetchedDataFrame} />
+                    <Map
+                        fetchedBoundaryDataFrame={fetchedBoundaryDataFrame}
+                        mapConfig={mapConfig}
+                    />
                 </div>
 
                 <div style={mystyle.over_map} id="over_map">
                     <FormDialog
-                        startDate
+                        startDate={startDate}
                         endDate={endDate}
                         crimeDescription={crimeDescription}
                         mapConfig={mapConfig}
@@ -146,16 +115,16 @@ export default function Kepler() {
                 </div>
             </div> */}
             <FormDialog
-                        startDate={startDate}
-                        endDate={endDate}
-                        crimeDescription={crimeDescription}
-                        mapConfig={mapConfig}
-                        handleStartDateChange={handleStartDateChange}
-                        handleEndDateChange={handleEndDateChange}
-                        handleCrimeDescriptionChange={handleCrimeDescriptionChange}
-                        handleMapConfigChange={handleMapConfigChange}
-                        handleSubmit={handleSubmit}
-                    />
+                startDate={startDate}
+                endDate={endDate}
+                crimeDescription={crimeDescription}
+                mapConfig={mapConfig}
+                handleStartDateChange={handleStartDateChange}
+                handleEndDateChange={handleEndDateChange}
+                handleCrimeDescriptionChange={handleCrimeDescriptionChange}
+                handleMapConfigChange={handleMapConfigChange}
+                handleSubmit={handleSubmit}
+            />
         </Provider>
     )
 }

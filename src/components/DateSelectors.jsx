@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function DateSelectors({ startDate, endDate, handleEndDateChange, handleStartDateChange }) {
 
-    console.log("start date ->", handleStartDateChange)
+    console.log("start date ->", startDate)
     const classes = useStyles();
 
     return (

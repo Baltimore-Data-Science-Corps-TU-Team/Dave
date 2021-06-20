@@ -7,10 +7,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import FormControl from '@material-ui/core/FormControl';
-import DateSelectors from './DateSelectors';
-import CrimeSelect from './CrimeSelect';
-import RadioMapConfig from './RadioMapConfig';
+import Stepper from './Stepper';
 
 const useStyles = makeStyles((theme) => ({
     form: {
@@ -28,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function FormDialog({ crimeDescription, handleCrimeDescriptionChange, mapConfig, handleMapConfigChange, handleSubmit, ...props }) {//{ crimeDescription handleCrimeDescriptionChange mapConfig handleMapConfigChange, ...props }
+export default function FormDialog({ handleSubmit, ...props }) {//{ crimeDescription handleCrimeDescriptionChange mapConfig handleMapConfigChange, ...props }
 
     const classes = useStyles();
 
@@ -47,35 +44,19 @@ export default function FormDialog({ crimeDescription, handleCrimeDescriptionCha
             </Fab>
             <Dialog open={isOpen} onClose={handleClose} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">Load a DataFrame</DialogTitle>
-                <DialogContent >
+                <DialogContent>
                     <DialogContentText>
                         Choose a date range and a crime type. Data source is Baltimore Open Data.
                     </DialogContentText>
-                    <form className={classes.form} noValidate>
-                        <FormControl className={classes.formControl}>
-                            <DateSelectors
-                                {...props}
-                            />
-                            <br />
-                            <CrimeSelect
-                                crimeDescription={crimeDescription}
-                                handleCrimeDescriptionChange={handleCrimeDescriptionChange}
-                            />
-                            <br />
-                            <RadioMapConfig
-                                mapConfig={mapConfig}
-                                handleMapConfigChange={handleMapConfigChange}
-                            />
-                        </FormControl>
-                    </form>
+                    <Stepper {...props} />
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose}>
+                    <Button onClick={handleClose} size="small" variant="outlined" color="secondary">
                         Cancel
                     </Button>
-                    <Button onClick={handleSubmit} color="primary">
+                    {/* <Button onClick={handleSubmit} color="primary">
                         Search
-                    </Button>
+                    </Button> */}
                 </DialogActions>
             </Dialog>
         </div>
