@@ -15,12 +15,7 @@ import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/Info';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
-import clusterImg from '../map-config-jpg/Cluster.jpg';
-import PointsImg from '../map-config-jpg/Points.jpg';
-import PointsByRegionImg from '../map-config-jpg/Points-by-Region.jpg';
-import PointsByDescriptionImg from '../map-config-jpg/Points-by-Description.jpg';
-import PointsByWeaponImg from '../map-config-jpg/Points-by-Weapon.jpg';
-import DefaultImg from '../map-config-jpg/Default.jpeg';
+import { CARDPROPS } from '../constants';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,13 +34,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function MapConfigGrid({ mapConfig, handleMapConfigChange }) {
+export function MapConfigGrid({ radioValue, handleRadioChange }) {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
       <Grid container spacing={1}>
-        {tileData.map((tile) => (
+        {CARDPROPS.map((tile) => (
           <Grid item xs={6}>
             <MediaCard
               img={tile.img}
@@ -61,56 +56,23 @@ export default function MapConfigGrid({ mapConfig, handleMapConfigChange }) {
   );
 }
 
-// function RadioMapConfig({ mapConfig, handleMapConfigChange }) {
-//   console.log("map-config", mapConfig)
-//   return (
-//     <FormControl component="fieldset">
-//       {/* <FormLabel component="legend">Map Configuration</FormLabel> */}
-//       <RadioGroup aria-label="mapConfig" name="mapConfig" value={mapConfig} onChange={handleMapConfigChange}>
-//         <FormControlLabel value="cluster" control={<Radio />} label="Cluster Visualization" />
-//         <FormControlLabel value="description" control={<Radio />} label="Points by description" />
-//         <FormControlLabel value="weapon" control={<Radio />} label="Points by weapon" />
-//         <FormControlLabel value="region" control={<Radio />} label="Points by region" />
-//         <FormControlLabel value="point-only" control={<Radio />} label="Points Only" />
-//         <FormControlLabel value="other" control={<Radio />} label="Custom" />
-//       </RadioGroup>
-//     </FormControl>
-//   );
-// }
+export function RadioMapConfig({ radioValue, handleRadioChange }) {
+  console.log("radioValue ->", radioValue)
+  return (
+    <FormControl component="fieldset">
+      {/* <FormLabel component="legend">Map Configuration</FormLabel> */}
+      <RadioGroup aria-label="configurations" name="configurations" value={radioValue} onChange={handleRadioChange}>
+        <FormControlLabel value="cluster" control={<Radio />} label="Cluster Visualization" />
+        <FormControlLabel value="description" control={<Radio />} label="Points by description" />
+        <FormControlLabel value="weapon" control={<Radio />} label="Points by weapon" />
+        <FormControlLabel value="region" control={<Radio />} label="Points by region" />
+        <FormControlLabel value="point-only" control={<Radio />} label="Points Only" />
+        <FormControlLabel value="custom" control={<Radio />} label="Custom" />
+      </RadioGroup>
+    </FormControl>
+  );
+}
 
-
-const tileData = [
-  {
-    img: clusterImg,
-    title: 'Cluster',
-    description: 'author',
-  },
-  {
-    img: PointsImg,
-    title: 'Points Only',
-    description: 'author',
-  },
-  {
-    img: PointsByRegionImg,
-    title: 'Points by Region',
-    description: 'author',
-  },
-  {
-    img: PointsByWeaponImg,
-    title: 'Points by Weapon',
-    description: 'author',
-  },
-  {
-    img: PointsByDescriptionImg,
-    title: 'Points by Description',
-    description: 'author',
-  },
-  {
-    img: DefaultImg,
-    title: 'Custom',
-    description: 'author',
-  },
-];
 
 function TitlebarGridList() {
   const classes = useStyles();
@@ -121,7 +83,7 @@ function TitlebarGridList() {
         <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
           <ListSubheader component="div">December</ListSubheader>
         </GridListTile>
-        {tileData.map((tile) => (
+        {CARDPROPS.map((tile) => (
           <GridListTile key={tile.img}>
             <img src={tile.img} alt={tile.title} />
             <GridListTileBar

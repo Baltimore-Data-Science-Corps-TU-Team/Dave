@@ -9,8 +9,13 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import FormControl from '@material-ui/core/FormControl';
 import DataSearchForm from './DataSearchForm';
-import RadioMapConfig from './RadioMapConfig';
-import MapConfigGrid from './RadioMapConfig';
+import { MapConfigGrid, RadioMapConfig } from './RadioMapConfig';
+import Grid from '@material-ui/core/Grid';
+import { IconButton, ButtonGroup } from '@material-ui/core';
+import EditRoundedIcon from '@material-ui/icons/EditRounded';
+import CheckCircleRoundedIcon from '@material-ui/icons/CheckCircleRounded';
+import { CircularProgress } from '@material-ui/core';
+import ErrorRoundedIcon from '@material-ui/icons/ErrorRounded';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -24,43 +29,95 @@ const useStyles = makeStyles((theme) => ({
         marginBottom: theme.spacing(2),
     },
     resetContainer: {
-        padding: theme.spacing(3),
+        padding: theme.spacing(),
     },
 }));
 
-function getSteps() {
-    return ['Form', 'Map Configuration'];
-}
 
-function getStepContent(step, {mapConfig, handleMapConfigChange, ...props}) {
+export default function FormStepper({ activeStep, handleNext, handleBack, handleReset, toggleLoading, toggleSuccess, handleSubmit, ...props }) {
 
-    // const { mapConfig, handleMapConfigChange, ...props } = props;
-    switch (step) {
-        case 0:
-             return <DataSearchForm {...props}/>
-        case 1:
-            return <MapConfigGrid mapConfig={mapConfig} handleMapConfigChange={handleMapConfigChange}/>
-        default:
-            return 'Unknown step';
-    }
-}
-
-export default function FormStepper(props) {
+    const { loading, success } = props.state;
     const classes = useStyles();
-    const [activeStep, setActiveStep] = useState(0);
     const steps = getSteps();
 
-    const handleNext = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    };
+    const customOnClick = (event) => {
+        if (activeStep === 0) {
+            toggleSuccess('false')
+            handleNext()
+        } else {
+            handleNext()
+            toggleSuccess('loading')
+            //toggleLoading()
+            handleSubmit(event);
+        }
+    }
 
-    const handleBack = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep - 1);
-    };
+    const successMessage = (success) => {
+        switch (success) {
+            case 'true':
+                return (
+                    <div>
+                        <Typography>Data loaded succesfully!</Typography>
+                    </div>
+                )
+            case 'false':
+                return (
+                    <div>
+                        <Typography>Data not loaded!</Typography>
+                    </div>
+                )
+            case 'loading':
+                return (
+                    <div>
+                        <Typography>Loading...</Typography>
+                    </div>
+                )
+            case undefined:
+                return null
+            default:
+                return
+        }
+    }
+    const getSuccessIcon = (success) => {
+        switch (success) {
+            case 'true':
+                return <CheckCircleRoundedIcon color="primary" />
+            case 'false':
+                return <ErrorRoundedIcon color="error" />
+            case 'loading':
+                return <CircularProgress size={25} />
+            case undefined:
+                return null
+            default:
+                return
+        }
+    }
 
-    // const handleReset = () => {
-    //     setActiveStep(0);
-    // };
+    const finalStep = (
+        (activeStep === steps.length)
+            ? (
+                <Step key="Completed">
+                    <StepLabel icon={getSuccessIcon(success)}>Completed</StepLabel>
+                    <StepContent>
+                        <div className={classes.actionsContainer}>
+                            <Grid>
+                                <Grid direction="row" item xs={8}>
+                                    {successMessage(success)}
+                                </Grid>
+                                <Grid item xs={2}>
+                                    <IconButton onClick={handleReset} aria-label="Edit form">
+                                        <EditRoundedIcon />
+                                    </IconButton>
+                                </Grid>
+                            </Grid>
+                        </div>
+                    </StepContent>
+                </Step>
+            )
+            : null
+    )
+
+    console.log("activeStep", activeStep)
 
     return (
         <div className={classes.root}>
@@ -71,29 +128,46 @@ export default function FormStepper(props) {
                         <StepContent>
                             <div>{getStepContent(index, props)}</div>
                             <div className={classes.actionsContainer}>
-                                <div>
+                                <ButtonGroup className={classes.button} disableElevation size="small" variant="contained" color="primary">
                                     <Button
                                         disabled={activeStep === 0}
                                         onClick={handleBack}
-                                        className={classes.button}
                                     >
                                         Back
                                     </Button>
                                     <Button
-                                        variant="contained"
-                                        color="primary"
-                                        onClick={handleNext}
-                                        className={classes.button}
+                                        onClick={customOnClick}
                                     >
-                                        {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                                        {activeStep === 0 ? 'Next' : 'Finish'}
                                     </Button>
-                                </div>
+                                </ButtonGroup>
                             </div>
                         </StepContent>
                     </Step>
                 ))}
+                {finalStep}
             </Stepper>
-            
         </div>
     );
+}
+
+
+
+
+function getSteps() {
+    return ['Filter your data search', 'Choose a map configuration'];
+}
+
+function getStepContent(step, { handleRadioChange, ...props }) {
+
+    const { radioValue } = props.state
+
+    switch (step) {
+        case 0:
+            return <DataSearchForm {...props} />
+        case 1:
+            return <MapConfigGrid radioValue={radioValue} handleRadioChange={handleRadioChange} />
+        default:
+            return 'Unknown step';
+    }
 }

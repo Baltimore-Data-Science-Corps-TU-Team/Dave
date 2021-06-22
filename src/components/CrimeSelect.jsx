@@ -2,6 +2,7 @@
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
+import { CRIME_OPTIONS } from '../constants';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -11,14 +12,6 @@ const useStyles = makeStyles((theme) => ({
         },
     },
 }));
-
-const crimes = [
-    'Homicide',
-    'Arson',
-    'Auto theft',
-    'Robbery',
-    'Shoplifting'
-];
 
 export default function CrimeSelect({ crimeDescription, handleCrimeDescriptionChange }) {
 
@@ -33,7 +26,7 @@ export default function CrimeSelect({ crimeDescription, handleCrimeDescriptionCh
                 filterSelectedOptions
                 size="small"
                 id="tags-outlined"
-                options={crimes}
+                options={CRIME_OPTIONS}
                 getOptionLabel={(option) => option}
                 value={crimeDescription}
                 onChange={handleCrimeDescriptionChange}

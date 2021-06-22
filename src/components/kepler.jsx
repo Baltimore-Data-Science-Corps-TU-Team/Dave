@@ -2,15 +2,14 @@ import React, { useEffect, useState } from 'react';
 import keplerGlReducer from 'kepler.gl/reducers';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { taskMiddleware } from 'react-palm/tasks';
-import { Provider, useDispatch } from 'react-redux';
-import KeplerGl from 'kepler.gl';
-import { addDataToMap } from 'kepler.gl/actions';
-import AccordionForm from './AccordionForm';
+import { Provider } from 'react-redux';
 import FormDialog from './Dialog';
 import { processGeojson } from 'kepler.gl/processors';
 import Map from './Map';
-
+import { getMapConfiguration } from '../utils';
 import { fetchCrimeGeoJson, fetchBoundaryGeoJson } from '../api';
+import { format } from 'date-fns';
+
 
 const customKeplerReducer = keplerGlReducer.initialState({
     uiState: {
@@ -25,23 +24,6 @@ const reducer = combineReducers({
 
 const store = createStore(reducer, {}, applyMiddleware(taskMiddleware));
 
-function getMapConfig(id) {
-    switch (id) {
-        case 0:
-            return ``
-        case 1:
-            return ``
-        case 2:
-            return ``
-        case 3:
-            return ``
-        case 4:
-            return ``
-        default:
-            return ``
-    }
-}
-
 export default function Kepler() {
     const mystyle = {
         wrapper: {
@@ -55,75 +37,101 @@ export default function Kepler() {
         }
     };
 
-    const [startDate, setStartDate] = useState(new Date());
-    const [endDate, setEndDate] = useState(new Date());
-    const [crimeDescription, setCrimeDescription] = useState([]);
-    const [fetchedCrimeDataFrame, setFetchedCrimeDataFrame] = useState(undefined);
-    const [fetchedBoundaryDataFrame, setFetchedBoundaryDataFrame] = useState(undefined);
-    const [mapConfig, setMapConfig] = useState('');
-
-    const handleMapConfigChange = (event) => {
-        setMapConfig(event.target.value);
-    };
-
-    const handleStartDateChange = (date) => {
-        setStartDate(date)
-    }
-    const handleEndDateChange = (date) => {
-        setEndDate(date)
-    }
-    const handleCrimeDescriptionChange = (event, newValue) => {
-        setCrimeDescription(newValue)
-    }
-    const handleSubmit = async (event, newValue) => {
-        console.log(startDate, endDate, crimeDescription)
-        event.preventDefault();
-        const fetchedCrimeGeoJson = (await fetchCrimeGeoJson(startDate, endDate, crimeDescription))
-        setFetchedCrimeDataFrame(processGeojson(fetchedCrimeGeoJson))
-    }
+    const [state, setState] = useState({
+        startDate: new Date(),
+        endDate: new Date(),
+        crimeDescription: [],
+        fetchedCrimeDataFrame: undefined,
+        fetchedBoundaryDataFrame: undefined,
+        mapConfiguration: {
+            config: {}
+        },
+        radioValue: '',
+        loading: false,
+        success: undefined
+    });
 
     useEffect(() => {
         const fetchApi = async () => {
             const fetchedBoundaryGeoJson = await fetchBoundaryGeoJson()
-            setFetchedBoundaryDataFrame(processGeojson(fetchedBoundaryGeoJson))
+            setState({ ...state, fetchedBoundaryDataFrame: processGeojson(fetchedBoundaryGeoJson) })
         }
         fetchApi();
     }, [])
+
+    const toggleSuccess = (value) => {
+        setState({...state, success: value})
+    }
+    const toggleLoading = () => {
+        setState({...state, loading: !state.loading})
+    }
+
+    const handleRadioChange = (event) => {
+        const value = event.target.value
+        const configuration = getMapConfiguration(value)
+        setState({ ...state, mapConfiguration: configuration, radioValue: value })
+    };
+
+    const handleStartDateChange = (date) => {
+        setState({ ...state, startDate: date })
+    }
+
+    const handleEndDateChange = (date) => {
+        setState({ ...state, endDate: date })
+    }
+
+    const handleCrimeDescriptionChange = (event, newValue) => {
+        setState({ ...state, crimeDescription: newValue })
+    }
+
+    const handleSubmit = async (event, newValue) => {
+        event.preventDefault();
+        const request = {
+            startDate: format(new Date(state.startDate), "yyyy-MM-dd"),
+            endDate: format(new Date(state.endDate), "yyyy-MM-dd"),
+            crimeDescription: state.crimeDescription
+        }
+
+        const fetchedCrimeGeoJson = (await fetchCrimeGeoJson(request))
+        console.log(fetchedCrimeGeoJson)
+        setState({ 
+            ...state, 
+            fetchedCrimeDataFrame: processGeojson(fetchedCrimeGeoJson),
+            loading: false,
+            success: 'true'
+        })
+    }
 
     return (
         <Provider store={store}>
             {/* <div style={mystyle.wrapper} id="wrapper">
                 <div id="google_map">
                     <Map
-                        fetchedBoundaryDataFrame={fetchedBoundaryDataFrame}
-                        mapConfig={mapConfig}
+                        fetchedBoundaryDataFrame={state.fetchedBoundaryDataFrame}
+                        mapConfiguration={state.mapConfiguration}
                     />
                 </div>
 
                 <div style={mystyle.over_map} id="over_map">
                     <FormDialog
-                        startDate={startDate}
-                        endDate={endDate}
-                        crimeDescription={crimeDescription}
-                        mapConfig={mapConfig}
+                        state={state}
                         handleStartDateChange={handleStartDateChange}
                         handleEndDateChange={handleEndDateChange}
                         handleCrimeDescriptionChange={handleCrimeDescriptionChange}
-                        handleMapConfigChange={handleMapConfigChange}
+                        handleRadioChange={handleRadioChange}
                         handleSubmit={handleSubmit}
                     />
                 </div>
             </div> */}
             <FormDialog
-                startDate={startDate}
-                endDate={endDate}
-                crimeDescription={crimeDescription}
-                mapConfig={mapConfig}
+                state={state}
                 handleStartDateChange={handleStartDateChange}
                 handleEndDateChange={handleEndDateChange}
                 handleCrimeDescriptionChange={handleCrimeDescriptionChange}
-                handleMapConfigChange={handleMapConfigChange}
+                handleRadioChange={handleRadioChange}
                 handleSubmit={handleSubmit}
+                toggleLoading={toggleLoading}
+                toggleSuccess={toggleSuccess}
             />
         </Provider>
     )

@@ -13,9 +13,11 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function DateSelectors({ startDate, endDate, handleEndDateChange, handleStartDateChange }) {
+export default function DateSelectors({ handleEndDateChange, handleStartDateChange, ...props }) {
 
+    const { startDate, endDate } = props.state
     console.log("start date ->", startDate)
+    console.log("end date ->", endDate)
     const classes = useStyles();
 
     return (
@@ -29,6 +31,7 @@ export default function DateSelectors({ startDate, endDate, handleEndDateChange,
                     format="yyyy-MM-dd"
                     allowKeyboardControl={false}
                     maxDate={new Date()}
+                    minDateMessage="Date cannot be in the past"
                     value={startDate}
                     onChange={handleStartDateChange}
                     KeyboardButtonProps={{

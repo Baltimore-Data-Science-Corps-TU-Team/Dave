@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import KeplerGl from 'kepler.gl';
 import { addDataToMap } from 'kepler.gl/actions';
 
-export default function Map({ fetchedBoundaryDataFrame, mapConfig }) {
+export default function Map({ fetchedBoundaryDataFrame, mapConfiguration }) {
 
     const dispatch = useDispatch();
 
@@ -23,19 +23,8 @@ export default function Map({ fetchedBoundaryDataFrame, mapConfig }) {
                         centerMap: true,
                         readOnly: false
                     },
-                    config: {
-                        visState: {
-                            filters: [
-                                // {
-                                //     id: 'me',
-                                //     dataId: 'test_trip_data',
-                                //     name: 'tpep_pickup_datetime',
-                                //     type: 'timeRange',
-                                //     enlarged: true
-                                // }
-                            ]
-                        }
-                    }
+                    config: mapConfiguration.config
+                    
                 })
             )
         }

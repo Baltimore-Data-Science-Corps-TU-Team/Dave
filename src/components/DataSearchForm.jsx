@@ -23,9 +23,10 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function DataSearchForm({ crimeDescription, handleCrimeDescriptionChange, ...props}) {
+export default function DataSearchForm({ handleCrimeDescriptionChange, ...props}) {
+    const { crimeDescription } = props.state
     const classes = useStyles();
-
+    
     return (
         <form className={classes.form} noValidate>
             <FormControl className={classes.formControl}>
