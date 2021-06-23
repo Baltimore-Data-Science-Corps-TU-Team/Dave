@@ -34,9 +34,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function FormStepper({ activeStep, handleNext, handleBack, handleReset, toggleLoading, toggleSuccess, handleSubmit, ...props }) {
+export default function FormStepper({ activeStep, handleNext, handleBack, handleReset, toggleSuccess, handleSubmit, ...props }) {
 
-    const { loading, success } = props.state;
+    const { success } = props.state;
     const classes = useStyles();
     const steps = getSteps();
 
@@ -47,7 +47,6 @@ export default function FormStepper({ activeStep, handleNext, handleBack, handle
         } else {
             handleNext()
             toggleSuccess('loading')
-            //toggleLoading()
             handleSubmit(event);
         }
     }
@@ -116,8 +115,6 @@ export default function FormStepper({ activeStep, handleNext, handleBack, handle
             )
             : null
     )
-
-    console.log("activeStep", activeStep)
 
     return (
         <div className={classes.root}>

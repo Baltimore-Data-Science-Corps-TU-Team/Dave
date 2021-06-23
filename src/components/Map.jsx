@@ -1,34 +1,53 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import KeplerGl from 'kepler.gl';
 import { addDataToMap } from 'kepler.gl/actions';
 
-export default function Map({ fetchedBoundaryDataFrame, mapConfiguration }) {
+export default function Map({ fetchedBoundaryDataFrame, fetchedCrimeDataFrame, mapConfiguration }) {
 
     const dispatch = useDispatch();
 
+    const boundaryDataset = (
+        (fetchedBoundaryDataFrame)
+            ? {
+                info: {
+                    label: 'boundaries',
+                    id: 'baltimore-boundaries'
+                },
+                data: fetchedBoundaryDataFrame
+            }
+            : {}
+    )
+
+    const crimeDataset = (
+        (fetchedCrimeDataFrame)
+            ? {
+                info: {
+                    label: 'crime',
+                    id: 'crime-baltimore'
+                },
+                data: fetchedCrimeDataFrame
+            }
+            : {}
+    )
+
     useEffect(() => {
-        if (fetchedBoundaryDataFrame) {
-            console.log("data frame->", fetchedBoundaryDataFrame)
-            dispatch(
-                addDataToMap({
-                    datasets: {
-                        info: {
-                            label: 'crime',
-                            id: 'crime-baltimore'
-                        },
-                        data: fetchedBoundaryDataFrame
-                    },
-                    option: {
-                        centerMap: true,
-                        readOnly: false
-                    },
-                    config: mapConfiguration.config
-                    
-                })
-            )
-        }
-    }, [dispatch, fetchedBoundaryDataFrame])
+        console.log("data frame->", fetchedBoundaryDataFrame)
+        console.log("mapconfiguration->", mapConfiguration.config)
+        dispatch(
+            addDataToMap({
+                datasets: [boundaryDataset, crimeDataset],
+                option: {
+                    centerMap: true,
+                    readOnly: false
+                },
+                config: mapConfiguration.config
+
+            })
+        )
+
+    }, [dispatch, boundaryDataset, crimeDataset, mapConfiguration.config])
+
 
     return (
         <div>

@@ -35,7 +35,7 @@ export default function FormDialog(props) {//{ crimeDescription handleCrimeDescr
     };
 
     const handleReset = () => {
-        setActiveStep(0);
+        setActiveStep(1);
     };
 
     const [isOpen, setIsOpen] = useState(false);

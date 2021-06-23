@@ -4,7 +4,7 @@ function getMapConfiguration(value) {
     switch (value) {
         case 'cluster':
             return CONFIGURATION.cluster
-        case 'point-only':
+        case 'points':
             return CONFIGURATION.points
         case 'weapon':
             return CONFIGURATION.weapon

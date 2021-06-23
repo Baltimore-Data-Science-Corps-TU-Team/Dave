@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -36,21 +37,45 @@ const useStyles = makeStyles((theme) => ({
 
 export function MapConfigGrid({ radioValue, handleRadioChange }) {
   const classes = useStyles();
+  console.log("radioValue ->", radioValue)
+
+  const [selectedCard, setSelectedCard] = useState({
+
+    cluster: false,
+    points: false,
+    weapon: false,
+    description: false,
+    region: false,
+    custom: false
+
+  })
+  const handleSelected = (event) => {
+    const key = event.target.alt
+    setSelectedCard({ key: true })
+  }
+
+  const handleOnClick = (event) => {
+    handleRadioChange(event)
+    //handleSelected(event)
+    console.log(event.target.alt)
+  }
 
   return (
     <div className={classes.root}>
       <Grid container spacing={1}>
-        {CARDPROPS.map((tile) => (
-          <Grid item xs={6}>
+        {CARDPROPS.map((card, index) => (
+          <Grid key={index} item xs={6}>
             <MediaCard
-              img={tile.img}
-              title={tile.title}
-              description={tile.description}
+              img={card.img}
+              title={card.title}
+              description={card.tooltip}
+              value={card.value}
+              handleOnClick={handleOnClick}
             />
           </Grid>
         ))}
       </Grid>
-      <br/>
+      <br />
     </div>
     // <TitlebarGridList />
   );
@@ -66,7 +91,7 @@ export function RadioMapConfig({ radioValue, handleRadioChange }) {
         <FormControlLabel value="description" control={<Radio />} label="Points by description" />
         <FormControlLabel value="weapon" control={<Radio />} label="Points by weapon" />
         <FormControlLabel value="region" control={<Radio />} label="Points by region" />
-        <FormControlLabel value="point-only" control={<Radio />} label="Points Only" />
+        <FormControlLabel value="point" control={<Radio />} label="Points Only" />
         <FormControlLabel value="custom" control={<Radio />} label="Custom" />
       </RadioGroup>
     </FormControl>

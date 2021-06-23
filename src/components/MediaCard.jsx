@@ -17,7 +17,7 @@ const useStyles = makeStyles({
     },
 });
 
-export default function MediaCard({img, title, description}) {
+export default function MediaCard({img, title, value, tooltip, isSelected, handleOnClick}) {
     const classes = useStyles();
 
     return (
@@ -25,10 +25,12 @@ export default function MediaCard({img, title, description}) {
             <CardActionArea>
                 <CardMedia
                     component="img"
-                    // alt={description}
+                    alt={value}
                     className={classes.media}
                     image={img}
                     title={title}
+                    selected={isSelected}
+                    onClick={handleOnClick}
                 />
                 <CardContent>
                     <Typography variant="caption" component="h5">
