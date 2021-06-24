@@ -40,14 +40,17 @@ export default function FormStepper({ activeStep, handleNext, handleBack, handle
     const classes = useStyles();
     const steps = getSteps();
 
+    const onSearchCLick = (event) => {
+        toggleSuccess('loading')
+        handleSubmit(event);
+
+    }
     const customOnClick = (event) => {
         if (activeStep === 0) {
-            toggleSuccess('false')
             handleNext()
         } else {
             handleNext()
-            toggleSuccess('loading')
-            handleSubmit(event);
+            
         }
     }
 
@@ -99,19 +102,22 @@ export default function FormStepper({ activeStep, handleNext, handleBack, handle
                     <StepLabel icon={getSuccessIcon(success)}>Completed</StepLabel>
                     <StepContent>
                         <div className={classes.actionsContainer}>
-                            <Grid>
-                                <Grid direction="row" item xs={8}>
-                                    {successMessage(success)}
-                                </Grid>
-                                <Grid item xs={2}>
-                                    <IconButton onClick={handleReset} aria-label="Edit form">
-                                        <EditRoundedIcon />
-                                    </IconButton>
-                                </Grid>
-                            </Grid>
+                            {successMessage(success)}
                         </div>
                     </StepContent>
                 </Step>
+            )
+            : null
+    )
+
+    const searchButton = (
+        (activeStep === 0)
+            ? (
+                <Button
+                    onClick={onSearchCLick}
+                >
+                    Search
+                </Button>
             )
             : null
     )
@@ -138,6 +144,7 @@ export default function FormStepper({ activeStep, handleNext, handleBack, handle
                                         {activeStep === 0 ? 'Next' : 'Finish'}
                                     </Button>
                                 </ButtonGroup>
+                                    {searchButton}
                             </div>
                         </StepContent>
                     </Step>
@@ -148,15 +155,11 @@ export default function FormStepper({ activeStep, handleNext, handleBack, handle
     );
 }
 
-
-
-
 function getSteps() {
     return ['Filter your data search', 'Choose a map configuration'];
 }
 
 function getStepContent(step, { handleRadioChange, ...props }) {
-
     const { radioValue } = props.state
 
     switch (step) {

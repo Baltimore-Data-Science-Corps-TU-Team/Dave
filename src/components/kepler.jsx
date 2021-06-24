@@ -42,9 +42,7 @@ export default function Kepler() {
         crimeDescription: [],
         fetchedCrimeDataFrame: undefined,
         fetchedBoundaryDataFrame: undefined,
-        mapConfiguration: {
-            config: {}
-        },
+        mapConfiguration: undefined,
         radioValue: '',
         selectedConfiguration: '',
         loading: false,
@@ -54,13 +52,13 @@ export default function Kepler() {
     const handleSubmit = async (event, newValue) => {
         event.preventDefault();
         const request = {
-            startDate: format(new Date(state.startDate), "yyyy-MM-dd"),
-            endDate: format(new Date(state.endDate), "yyyy-MM-dd"),
-            crimeDescription: state.crimeDescription
+            startdate: format(new Date(state.startDate), "yyyy-MM-dd"),
+            enddate: format(new Date(state.endDate), "yyyy-MM-dd"),
+            crime: state.crimeDescription[0]
         }
 
         const fetchedCrimeGeoJson = (await fetchCrimeGeoJson(request))
-        console.log(fetchedCrimeGeoJson)
+        console.log("crimegeojson->", fetchedCrimeGeoJson)
         setState({
             ...state,
             fetchedCrimeDataFrame: processGeojson(fetchedCrimeGeoJson),

@@ -1,10 +1,9 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import KeplerGl from 'kepler.gl';
-import { addDataToMap } from 'kepler.gl/actions';
+import { addDataToMap, layerConfigChange, layerVisConfigChange, updateVisData } from 'kepler.gl/actions';
 
 export default function Map({ fetchedBoundaryDataFrame, fetchedCrimeDataFrame, mapConfiguration }) {
-
     const dispatch = useDispatch();
 
     const boundaryDataset = (
@@ -32,21 +31,23 @@ export default function Map({ fetchedBoundaryDataFrame, fetchedCrimeDataFrame, m
     )
 
     useEffect(() => {
-        console.log("data frame->", fetchedBoundaryDataFrame)
-        console.log("mapconfiguration->", mapConfiguration.config)
-        dispatch(
-            addDataToMap({
-                datasets: [boundaryDataset, crimeDataset],
-                option: {
-                    centerMap: true,
-                    readOnly: false
-                },
-                config: mapConfiguration.config
+        if (fetchedCrimeDataFrame && mapConfiguration) {
+            console.log("data frame->", fetchedBoundaryDataFrame)
+            console.log("mapconfiguration->", mapConfiguration)
+            dispatch(
+                addDataToMap({
+                    datasets: [boundaryDataset, crimeDataset],
+                    option: {
+                        centerMap: true,
+                        readOnly: false
+                    },
+                    config: mapConfiguration
 
-            })
-        )
+                })
+            )
+        }
 
-    }, [dispatch, boundaryDataset, crimeDataset, mapConfiguration.config])
+    }, [dispatch, boundaryDataset, crimeDataset, mapConfiguration])
 
 
     return (
