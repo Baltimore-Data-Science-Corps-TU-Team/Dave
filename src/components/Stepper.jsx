@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
+import clsx from 'clsx';
 import StepLabel from '@material-ui/core/StepLabel';
 import StepContent from '@material-ui/core/StepContent';
 import Button from '@material-ui/core/Button';
@@ -16,6 +17,13 @@ import EditRoundedIcon from '@material-ui/icons/EditRounded';
 import CheckCircleRoundedIcon from '@material-ui/icons/CheckCircleRounded';
 import { CircularProgress } from '@material-ui/core';
 import ErrorRoundedIcon from '@material-ui/icons/ErrorRounded';
+import { green } from '@material-ui/core/colors';
+import Fab from '@material-ui/core/Fab';
+import CheckIcon from '@material-ui/icons/Check';
+import SaveIcon from '@material-ui/icons/Save';
+import SearchRoundedIcon from '@material-ui/icons/SearchRounded';
+import DoneRoundedIcon from '@material-ui/icons/DoneRounded';
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -27,21 +35,67 @@ const useStyles = makeStyles((theme) => ({
     },
     actionsContainer: {
         marginBottom: theme.spacing(2),
+        display: 'in-line',
     },
     resetContainer: {
         padding: theme.spacing(),
     },
 }));
 
+const buttonStyles = makeStyles((theme) => ({
+    root: {
+        display: 'flex',
+        alignItems: 'center',
+    },
+    wrapper: {
+        margin: theme.spacing(1),
+        position: 'relative',
+    },
+    buttonSuccess: {
+        backgroundColor: green[800],
+        '&:hover': {
+            backgroundColor: green[900],
+        },
+        marginTop: theme.spacing(2),
+        marginRight: theme.spacing(1),
+    },
+    fabProgress: {
+        color: green[500],
+        position: 'absolute',
+        top: -6,
+        left: -6,
+        zIndex: 1,
+    },
+    buttonProgress: {
+        color: green[500],
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        marginTop: -12,
+        marginLeft: -12,
+    },
+}));
 
-export default function FormStepper({ activeStep, handleNext, handleBack, handleReset, toggleSuccess, handleSubmit, ...props }) {
 
-    const { success } = props.state;
+export default function FormStepper({ activeStep, handleNext, handleBack, handleReset, toggleSuccess, toggleLoading, handleSubmit, ...props }) {
+
+    // const [loading, setLoading] = useState(false);
+    // const [success, setSuccess] = useState(false);
+    const { loading, success } = props.state
+    const timer = useRef();
+    //const { success } = props.state;
     const classes = useStyles();
+    const buttonClasses = buttonStyles();
+
+    const buttonClassname = clsx({
+        [buttonClasses.buttonSuccess]: success,
+    });
+
     const steps = getSteps();
 
     const onSearchCLick = (event) => {
-        toggleSuccess('loading')
+        toggleSuccess()
+        toggleLoading()
         handleSubmit(event);
 
     }
@@ -50,74 +104,44 @@ export default function FormStepper({ activeStep, handleNext, handleBack, handle
             handleNext()
         } else {
             handleNext()
-            
+
         }
     }
 
-    const successMessage = (success) => {
-        switch (success) {
-            case 'true':
-                return (
-                    <div>
-                        <Typography>Data loaded succesfully!</Typography>
-                    </div>
-                )
-            case 'false':
-                return (
-                    <div>
-                        <Typography>Data not loaded!</Typography>
-                    </div>
-                )
-            case 'loading':
-                return (
-                    <div>
-                        <Typography>Loading...</Typography>
-                    </div>
-                )
-            case undefined:
-                return null
-            default:
-                return
-        }
-    }
-    const getSuccessIcon = (success) => {
-        switch (success) {
-            case 'true':
-                return <CheckCircleRoundedIcon color="primary" />
-            case 'false':
-                return <ErrorRoundedIcon color="error" />
-            case 'loading':
-                return <CircularProgress size={25} />
-            case undefined:
-                return null
-            default:
-                return
-        }
-    }
+    // const getSuccessIcon = (success) => {
+    //     switch (success) {
+    //         case 'true':
+    //             return <CheckCircleRoundedIcon color="primary" />
+    //         case 'false':
+    //             return <ErrorRoundedIcon color="error" />
+    //         case 'loading':
+    //             return <CircularProgress size={25} />
+    //         case undefined:
+    //             return null
+    //         default:
+    //             return
+    //     }
+    // }
 
-    const finalStep = (
-        (activeStep === steps.length)
-            ? (
-                <Step key="Completed">
-                    <StepLabel icon={getSuccessIcon(success)}>Completed</StepLabel>
-                    <StepContent>
-                        <div className={classes.actionsContainer}>
-                            {successMessage(success)}
-                        </div>
-                    </StepContent>
-                </Step>
-            )
-            : null
-    )
 
     const searchButton = (
         (activeStep === 0)
             ? (
-                <Button
-                    onClick={onSearchCLick}
-                >
-                    Search
-                </Button>
+                <div className={buttonClasses.root}>
+                    <div className={buttonClasses.wrapper}>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            className={buttonClassname}
+                            disabled={loading}
+                            onClick={onSearchCLick}
+                            size="small"
+                        >
+                            {success ? <DoneRoundedIcon /> : <SearchRoundedIcon />}
+                        </Button>
+                        {loading && <CircularProgress size={24} className={buttonClasses.buttonProgress} />}
+                    </div>
+                </div>
             )
             : null
     )
@@ -131,25 +155,30 @@ export default function FormStepper({ activeStep, handleNext, handleBack, handle
                         <StepContent>
                             <div>{getStepContent(index, props)}</div>
                             <div className={classes.actionsContainer}>
-                                <ButtonGroup className={classes.button} disableElevation size="small" variant="contained" color="primary">
-                                    <Button
-                                        disabled={activeStep === 0}
-                                        onClick={handleBack}
-                                    >
-                                        Back
-                                    </Button>
-                                    <Button
-                                        onClick={customOnClick}
-                                    >
-                                        {activeStep === 0 ? 'Next' : 'Finish'}
-                                    </Button>
-                                </ButtonGroup>
-                                    {searchButton}
+                                <Grid container spacing={3}>
+                                    <Grid item xs={9}>
+                                        <ButtonGroup className={classes.button} disableElevation size="small" variant="contained" color="primary">
+                                            <Button
+                                                disabled={activeStep === 0}
+                                                onClick={handleBack}
+                                            >
+                                                Back
+                                            </Button>
+                                            <Button
+                                                onClick={customOnClick}
+                                            >
+                                                {activeStep === 0 ? 'Next' : 'Finish'}
+                                            </Button>
+                                        </ButtonGroup>
+                                    </Grid>
+                                    <Grid item xs={3} justify="flex-end">
+                                        {searchButton}
+                                    </Grid>
+                                </Grid>
                             </div>
                         </StepContent>
                     </Step>
                 ))}
-                {finalStep}
             </Stepper>
         </div>
     );
@@ -171,3 +200,49 @@ function getStepContent(step, { handleRadioChange, ...props }) {
             return 'Unknown step';
     }
 }
+
+
+
+
+
+// const successMessage = (success) => {
+//     switch (success) {
+//             case 'true':
+//             return (
+//                     <div>
+//                     <Typography>Data loaded succesfully!</Typography>
+//                 </div>
+//             )
+//         case 'false':
+//             return (
+//                 <div>
+//                     <Typography>Data not loaded!</Typography>
+//                 </div>
+//             )
+//         case 'loading':
+//             return (
+//                     <div>
+//                         <Typography>Loading...</Typography>
+//                     </div>
+//                 )
+//             case undefined:
+//                 return null
+//         default:
+//             return
+//     }
+// }
+
+// const finalStep = (
+//     (activeStep === steps.length)
+//         ? (
+//             <Step key="Completed">
+//                 <StepLabel icon={getSuccessIcon(success)}>Completed</StepLabel>
+//                 <StepContent>
+//                     <div className={classes.actionsContainer}>
+//                         {successMessage(success)}
+//                     </div>
+//                 </StepContent>
+//             </Step>
+//         )
+//         : null
+// )

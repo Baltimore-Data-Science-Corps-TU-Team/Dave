@@ -8,8 +8,8 @@ function getMapConfiguration(value) {
             return CONFIGURATION.points
         case 'weapon':
             return CONFIGURATION.weapon
-        case 'description':
-            return CONFIGURATION.description
+        case 'heatmap':
+            return CONFIGURATION.heatmap
         case 'region':
             return CONFIGURATION.region
         case 'custom':

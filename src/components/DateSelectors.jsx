@@ -31,6 +31,7 @@ export default function DateSelectors({ handleEndDateChange, handleStartDateChan
                     format="yyyy-MM-dd"
                     allowKeyboardControl={false}
                     maxDate={new Date()}
+                    minDate={new Date('1970-01-01')}
                     minDateMessage="Date cannot be in the past"
                     value={startDate}
                     onChange={handleStartDateChange}
@@ -46,7 +47,7 @@ export default function DateSelectors({ handleEndDateChange, handleStartDateChan
                     label="End Date"
                     format="yyyy-MM-dd"
                     value={endDate}
-                    minDate={(startDate) ? new Date(startDate) : null}
+                    minDate={(startDate) ? new Date(startDate) : new Date('1970-01-01')}
                     onChange={handleEndDateChange}
                     KeyboardButtonProps={{
                         'aria-label': 'change date',

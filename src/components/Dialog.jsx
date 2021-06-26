@@ -17,13 +17,26 @@ const useStyles = makeStyles((theme) => ({
     button: {
         marginBottom: theme.spacing(1),
         marginRight: theme.spacing(1),
-    }
+
+    },
+    fab: {
+        backgroundColor: 'transparent',
+        border: '1px solid #E0E0E0',
+        boxShadow: 'none',
+        color: '#E0E0E0',
+        '&:hover': {
+            backgroundColor: '#E0E0E0',
+            color: '#252730'
+        }
+    },
+
 }));
 
 
 export default function FormDialog(props) {//{ crimeDescription handleCrimeDescriptionChange mapConfig handleMapConfigChange, ...props }
 
-    const classes = useStyles()
+    const { toggleSuccess } = props;
+    const classes = useStyles();
     const [activeStep, setActiveStep] = useState(0);
 
     const handleNext = () => {
@@ -35,7 +48,8 @@ export default function FormDialog(props) {//{ crimeDescription handleCrimeDescr
     };
 
     const handleReset = () => {
-        setActiveStep(1);
+        toggleSuccess()
+        setActiveStep(0);
     };
 
     const [isOpen, setIsOpen] = useState(false);
@@ -48,7 +62,7 @@ export default function FormDialog(props) {//{ crimeDescription handleCrimeDescr
 
     return (
         <div>
-            <Fab variant="extended" size="large" onClick={handleClickOpen}>
+            <Fab variant="extended" size="large" onClick={handleClickOpen} className={classes.fab}>
                 Load Data to the Map
             </Fab>
             <Dialog
@@ -90,9 +104,6 @@ export default function FormDialog(props) {//{ crimeDescription handleCrimeDescr
                     >
                         Close
                     </Button>
-                    {/* <Button onClick={handleSubmit} color="primary">
-                        Search
-                    </Button> */}
                 </DialogActions>
             </Dialog>
         </div>

@@ -44,7 +44,7 @@ export function MapConfigGrid({ radioValue, handleRadioChange }) {
     cluster: false,
     points: false,
     weapon: false,
-    description: false,
+    heatmap: false,
     region: false,
     custom: false
 
@@ -99,30 +99,3 @@ export function RadioMapConfig({ radioValue, handleRadioChange }) {
 }
 
 
-function TitlebarGridList() {
-  const classes = useStyles();
-
-  return (
-    <div className={classes.root}>
-      <GridList cellHeight={180} className={classes.gridList}>
-        <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
-          <ListSubheader component="div">December</ListSubheader>
-        </GridListTile>
-        {CARDPROPS.map((tile) => (
-          <GridListTile key={tile.img}>
-            <img src={tile.img} alt={tile.title} />
-            <GridListTileBar
-              title={tile.title}
-              subtitle={<span>by: {tile.author}</span>}
-              actionIcon={
-                <IconButton aria-label={`info about ${tile.title}`} className={classes.icon}>
-                  <InfoIcon />
-                </IconButton>
-              }
-            />
-          </GridListTile>
-        ))}
-      </GridList>
-    </div>
-  );
-}

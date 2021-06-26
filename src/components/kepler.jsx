@@ -12,7 +12,6 @@ import { format } from 'date-fns';
 
 const customKeplerReducer = keplerGlReducer.initialState({
     uiState: {
-        activeSidePanel: null,
         currentModal: null
     }
 });
@@ -24,7 +23,7 @@ const reducer = combineReducers({
 const store = createStore(reducer, {}, applyMiddleware(taskMiddleware));
 
 export default function Kepler() {
-    const mystyle = {
+    const mapOverlayStyle = {
         wrapper: {
             position: "relative",
         },
@@ -37,16 +36,15 @@ export default function Kepler() {
     };
 
     const [state, setState] = useState({
-        startDate: new Date(),
-        endDate: new Date(),
-        crimeDescription: [],
-        fetchedCrimeDataFrame: undefined,
+        success: false,
+        loading: false,
         fetchedBoundaryDataFrame: undefined,
         mapConfiguration: undefined,
         radioValue: '',
-        selectedConfiguration: '',
-        loading: false,
-        success: undefined
+        crimeDescription: [],
+        endDate: new Date(),
+        startDate: new Date(),
+        fetchedCrimeDataFrame: undefined
     });
 
     const handleSubmit = async (event, newValue) => {
@@ -63,24 +61,23 @@ export default function Kepler() {
             ...state,
             fetchedCrimeDataFrame: processGeojson(fetchedCrimeGeoJson),
             loading: false,
-            success: 'true'
+            success: true
         })
     }
-
-    const toggleSuccess = (value) => {
-        setState({ ...state, success: value })
+    const toggleSuccess = () => {
+        setState({ ...state, success: false })
     }
-
+    const toggleLoading = () => {
+        setState({ ...state, loading: true })
+    }
     const handleRadioChange = (event) => {
         const value = event.target.alt
         const configuration = getMapConfiguration(value)
         setState({ ...state, mapConfiguration: configuration, radioValue: value })
     };
-
     const handleCrimeDescriptionChange = (event, newValue) => {
         setState({ ...state, crimeDescription: newValue })
     }
-
     const handleEndDateChange = (date) => {
         setState({ ...state, endDate: date })
     }
@@ -98,8 +95,8 @@ export default function Kepler() {
 
     return (
         <Provider store={store}>
-            <div style={mystyle.wrapper} id="wrapper">
-                <div id="google_map">
+            <div style={mapOverlayStyle.wrapper} id="wrapper">
+                <div id="kepler-map">
                     <Map
                         fetchedBoundaryDataFrame={state.fetchedBoundaryDataFrame}
                         fetchedCrimeDataFrame={state.fetchedCrimeDataFrame}
@@ -107,7 +104,7 @@ export default function Kepler() {
                     />
                 </div>
 
-                <div style={mystyle.over_map} id="over_map">
+                <div style={mapOverlayStyle.over_map} id="over_map">
                     <FormDialog
                         state={state}
                         handleStartDateChange={handleStartDateChange}
@@ -116,6 +113,7 @@ export default function Kepler() {
                         handleRadioChange={handleRadioChange}
                         handleSubmit={handleSubmit}
                         toggleSuccess={toggleSuccess}
+                        toggleLoading={toggleLoading}
                     />
                 </div>
             </div>
@@ -127,6 +125,7 @@ export default function Kepler() {
                 handleRadioChange={handleRadioChange}
                 handleSubmit={handleSubmit}
                 toggleSuccess={toggleSuccess}
+                toggleLoading={toggleLoading}
             /> */}
         </Provider>
     )

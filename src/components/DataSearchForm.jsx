@@ -1,7 +1,3 @@
-import { useState } from 'react';
-import Fab from '@material-ui/core/Fab';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
 import { makeStyles } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
 import DateSelectors from './DateSelectors';
@@ -26,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 export default function DataSearchForm({ handleCrimeDescriptionChange, ...props}) {
     const { crimeDescription } = props.state
     const classes = useStyles();
-    
+
     return (
         <form className={classes.form} noValidate>
             <FormControl className={classes.formControl}>
