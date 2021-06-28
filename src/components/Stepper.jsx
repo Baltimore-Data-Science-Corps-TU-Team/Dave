@@ -1,4 +1,3 @@
-import { useState, useEffect, useRef } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
@@ -6,21 +5,10 @@ import clsx from 'clsx';
 import StepLabel from '@material-ui/core/StepLabel';
 import StepContent from '@material-ui/core/StepContent';
 import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
-import FormControl from '@material-ui/core/FormControl';
 import DataSearchForm from './DataSearchForm';
-import { MapConfigGrid, RadioMapConfig } from './RadioMapConfig';
-import Grid from '@material-ui/core/Grid';
-import { IconButton, ButtonGroup } from '@material-ui/core';
-import EditRoundedIcon from '@material-ui/icons/EditRounded';
-import CheckCircleRoundedIcon from '@material-ui/icons/CheckCircleRounded';
-import { CircularProgress } from '@material-ui/core';
-import ErrorRoundedIcon from '@material-ui/icons/ErrorRounded';
+import { MapConfigGrid } from './RadioMapConfig';
+import { ButtonGroup } from '@material-ui/core';
 import { green } from '@material-ui/core/colors';
-import Fab from '@material-ui/core/Fab';
-
-
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -73,7 +61,6 @@ const buttonStyles = makeStyles((theme) => ({
     },
 }));
 
-
 export default function FormStepper({ activeStep, handleNext, handleBack, handleReset, ...props }) {
 
     // const [loading, setLoading] = useState(false);
@@ -96,44 +83,6 @@ export default function FormStepper({ activeStep, handleNext, handleBack, handle
             handleNext()
         }
     }
-
-    // const getSuccessIcon = (success) => {
-    //     switch (success) {
-    //         case 'true':
-    //             return <CheckCircleRoundedIcon color="primary" />
-    //         case 'false':
-    //             return <ErrorRoundedIcon color="error" />
-    //         case 'loading':
-    //             return <CircularProgress size={25} />
-    //         case undefined:
-    //             return null
-    //         default:
-    //             return
-    //     }
-    // }
-
-
-    // const searchButton = (
-    //     (activeStep === 0)
-    //         ? (
-    //             <div className={buttonClasses.root}>
-    //                 <div className={buttonClasses.wrapper}>
-    //                     <Button
-    //                         variant="contained"
-    //                         color="primary"
-    //                         className={buttonClassname}
-    //                         disabled={loading}
-    //                         onClick={onSearchCLick}
-    //                         size="small"
-    //                     >
-    //                         {success ? <DoneRoundedIcon /> : <SearchRoundedIcon />}
-    //                     </Button>
-    //                     {loading && <CircularProgress size={24} className={buttonClasses.buttonProgress} />}
-    //                 </div>
-    //             </div>
-    //         )
-    //         : null
-    // )
 
     return (
         <div className={classes.root}>
@@ -184,6 +133,43 @@ function getStepContent(step, { handleRadioChange, ...props }) {
 }
 
 
+// const getSuccessIcon = (success) => {
+//     switch (success) {
+//         case 'true':
+//             return <CheckCircleRoundedIcon color="primary" />
+//         case 'false':
+//             return <ErrorRoundedIcon color="error" />
+//         case 'loading':
+//             return <CircularProgress size={25} />
+//         case undefined:
+//             return null
+//         default:
+//             return
+//     }
+// }
+
+
+// const searchButton = (
+//     (activeStep === 0)
+//         ? (
+//             <div className={buttonClasses.root}>
+//                 <div className={buttonClasses.wrapper}>
+//                     <Button
+//                         variant="contained"
+//                         color="primary"
+//                         className={buttonClassname}
+//                         disabled={loading}
+//                         onClick={onSearchCLick}
+//                         size="small"
+//                     >
+//                         {success ? <DoneRoundedIcon /> : <SearchRoundedIcon />}
+//                     </Button>
+//                     {loading && <CircularProgress size={24} className={buttonClasses.buttonProgress} />}
+//                 </div>
+//             </div>
+//         )
+//         : null
+// )
 // const successMessage = (success) => {
 //     switch (success) {
 //             case 'true':

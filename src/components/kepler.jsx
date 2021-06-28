@@ -29,7 +29,7 @@ export default function Kepler() {
         },
         over_map: {
             position: "absolute",
-            bottom: "100px",
+            bottom: "280px",
             right: "40px",
             zIndex: 99
         }
@@ -55,7 +55,6 @@ export default function Kepler() {
             crime: state.crimeDescription.toUpperCase()
         }
         const fetchedCrimeGeoJson = (await fetchCrimeGeoJson(request))
-        //console.log("crimegeojson->", fetchedCrimeGeoJson)
         setState({
             ...state,
             fetchedCrimeDataFrame: processGeojson(fetchedCrimeGeoJson),
@@ -94,7 +93,7 @@ export default function Kepler() {
 
     return (
         <Provider store={store}>
-            {/* <div style={mapOverlayStyle.wrapper} id="wrapper">
+            <div style={mapOverlayStyle.wrapper} id="wrapper">
                 <div id="kepler-map">
                     <Map
                         fetchedBoundaryDataFrame={state.fetchedBoundaryDataFrame}
@@ -115,17 +114,7 @@ export default function Kepler() {
                         toggleLoading={toggleLoading}
                     />
                 </div>
-            </div> */}
-            <FormDialog
-                state={state}
-                handleStartDateChange={handleStartDateChange}
-                handleEndDateChange={handleEndDateChange}
-                handleCrimeDescriptionChange={handleCrimeDescriptionChange}
-                handleRadioChange={handleRadioChange}
-                handleSubmit={handleSubmit}
-                toggleSuccess={toggleSuccess}
-                toggleLoading={toggleLoading}
-            />
+            </div>
         </Provider>
     )
 }

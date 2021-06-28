@@ -27,7 +27,6 @@ const useStyles = makeStyles((theme) => ({
             color: '#252730'
         }
     },
-
 }));
 
 export default function FormDialog(props) {
@@ -35,6 +34,7 @@ export default function FormDialog(props) {
     const { toggleSuccess } = props;
     const classes = useStyles();
     const [activeStep, setActiveStep] = useState(0);
+    const [isOpen, setIsOpen] = useState(false);
 
     const handleNext = () => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -49,7 +49,6 @@ export default function FormDialog(props) {
         setActiveStep(0);
     };
 
-    const [isOpen, setIsOpen] = useState(false);
     const handleClickOpen = () => {
         setIsOpen(true);
     };

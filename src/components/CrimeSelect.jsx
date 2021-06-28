@@ -16,7 +16,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function CrimeSelect({ crimeDescription, handleCrimeDescriptionChange }) {
     const classes = useStyles();
-    console.log("crime description ->", crimeDescription)
 
     return (
         <div className={classes.root}>

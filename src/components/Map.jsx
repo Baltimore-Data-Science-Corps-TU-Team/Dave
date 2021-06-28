@@ -7,6 +7,7 @@ export default function Map({ fetchedBoundaryDataFrame, fetchedCrimeDataFrame, m
 
     const dispatch = useDispatch();
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const boundaryDataset = {
         info: {
             label: 'Boundaries',
@@ -15,6 +16,7 @@ export default function Map({ fetchedBoundaryDataFrame, fetchedCrimeDataFrame, m
         data: fetchedBoundaryDataFrame
     }
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const crimeDataset = {
         info: {
             label: 'Crime',
@@ -24,8 +26,6 @@ export default function Map({ fetchedBoundaryDataFrame, fetchedCrimeDataFrame, m
     }
 
     useEffect(() => {
-        console.log("data frame->", fetchedBoundaryDataFrame)
-        console.log("mapconfiguration->", mapConfiguration)
         dispatch(
             addDataToMap({
                 datasets: [boundaryDataset, crimeDataset],
