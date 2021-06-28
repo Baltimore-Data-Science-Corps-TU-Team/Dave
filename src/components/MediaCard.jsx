@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -17,11 +17,11 @@ const useStyles = makeStyles({
     },
 });
 
-export default function MediaCard({img, title, value, tooltip, isSelected, handleOnClick}) {
+export default function MediaCard({ img, title, value, tooltip, isSelected, handleOnClick, selected }) {
     const classes = useStyles();
 
     return (
-        <Card className={classes.root}>
+        <Card raised={selected} >
             <CardActionArea>
                 <CardMedia
                     component="img"
@@ -29,23 +29,14 @@ export default function MediaCard({img, title, value, tooltip, isSelected, handl
                     className={classes.media}
                     image={img}
                     title={title}
-                    selected={isSelected}
                     onClick={handleOnClick}
                 />
                 <CardContent>
-                    <Typography variant="caption" component="h5">
+                    <Typography variant="caption">
                         {title}
                     </Typography>
                 </CardContent>
             </CardActionArea>
-            {/* <CardActions>
-        <Button size="small" color="primary">
-          Share
-        </Button>
-        <Button size="small" color="primary">
-          Learn More
-        </Button>
-      </CardActions> */}
         </Card>
     );
 }

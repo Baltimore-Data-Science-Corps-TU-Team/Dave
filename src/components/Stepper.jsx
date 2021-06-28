@@ -19,10 +19,7 @@ import { CircularProgress } from '@material-ui/core';
 import ErrorRoundedIcon from '@material-ui/icons/ErrorRounded';
 import { green } from '@material-ui/core/colors';
 import Fab from '@material-ui/core/Fab';
-import CheckIcon from '@material-ui/icons/Check';
-import SaveIcon from '@material-ui/icons/Save';
-import SearchRoundedIcon from '@material-ui/icons/SearchRounded';
-import DoneRoundedIcon from '@material-ui/icons/DoneRounded';
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -77,12 +74,11 @@ const buttonStyles = makeStyles((theme) => ({
 }));
 
 
-export default function FormStepper({ activeStep, handleNext, handleBack, handleReset, toggleSuccess, toggleLoading, handleSubmit, ...props }) {
+export default function FormStepper({ activeStep, handleNext, handleBack, handleReset, ...props }) {
 
     // const [loading, setLoading] = useState(false);
     // const [success, setSuccess] = useState(false);
     const { loading, success } = props.state
-    const timer = useRef();
     //const { success } = props.state;
     const classes = useStyles();
     const buttonClasses = buttonStyles();
@@ -93,18 +89,11 @@ export default function FormStepper({ activeStep, handleNext, handleBack, handle
 
     const steps = getSteps();
 
-    const onSearchCLick = (event) => {
-        toggleSuccess()
-        toggleLoading()
-        handleSubmit(event);
-
-    }
     const customOnClick = (event) => {
         if (activeStep === 0) {
             handleNext()
         } else {
             handleNext()
-
         }
     }
 
@@ -124,27 +113,27 @@ export default function FormStepper({ activeStep, handleNext, handleBack, handle
     // }
 
 
-    const searchButton = (
-        (activeStep === 0)
-            ? (
-                <div className={buttonClasses.root}>
-                    <div className={buttonClasses.wrapper}>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            className={buttonClassname}
-                            disabled={loading}
-                            onClick={onSearchCLick}
-                            size="small"
-                        >
-                            {success ? <DoneRoundedIcon /> : <SearchRoundedIcon />}
-                        </Button>
-                        {loading && <CircularProgress size={24} className={buttonClasses.buttonProgress} />}
-                    </div>
-                </div>
-            )
-            : null
-    )
+    // const searchButton = (
+    //     (activeStep === 0)
+    //         ? (
+    //             <div className={buttonClasses.root}>
+    //                 <div className={buttonClasses.wrapper}>
+    //                     <Button
+    //                         variant="contained"
+    //                         color="primary"
+    //                         className={buttonClassname}
+    //                         disabled={loading}
+    //                         onClick={onSearchCLick}
+    //                         size="small"
+    //                     >
+    //                         {success ? <DoneRoundedIcon /> : <SearchRoundedIcon />}
+    //                     </Button>
+    //                     {loading && <CircularProgress size={24} className={buttonClasses.buttonProgress} />}
+    //                 </div>
+    //             </div>
+    //         )
+    //         : null
+    // )
 
     return (
         <div className={classes.root}>
@@ -155,26 +144,19 @@ export default function FormStepper({ activeStep, handleNext, handleBack, handle
                         <StepContent>
                             <div>{getStepContent(index, props)}</div>
                             <div className={classes.actionsContainer}>
-                                <Grid container spacing={3}>
-                                    <Grid item xs={9}>
-                                        <ButtonGroup className={classes.button} disableElevation size="small" variant="contained" color="primary">
-                                            <Button
-                                                disabled={activeStep === 0}
-                                                onClick={handleBack}
-                                            >
-                                                Back
-                                            </Button>
-                                            <Button
-                                                onClick={customOnClick}
-                                            >
-                                                {activeStep === 0 ? 'Next' : 'Finish'}
-                                            </Button>
-                                        </ButtonGroup>
-                                    </Grid>
-                                    <Grid item xs={3} justify="flex-end">
-                                        {searchButton}
-                                    </Grid>
-                                </Grid>
+                                <ButtonGroup className={classes.button} disableElevation size="small" variant="contained" color="primary">
+                                    <Button
+                                        disabled={activeStep === 0}
+                                        onClick={handleBack}
+                                    >
+                                        Back
+                                    </Button>
+                                    <Button
+                                        onClick={customOnClick}
+                                    >
+                                        {activeStep === 0 ? 'Next' : 'Finish'}
+                                    </Button>
+                                </ButtonGroup>
                             </div>
                         </StepContent>
                     </Step>
@@ -200,9 +182,6 @@ function getStepContent(step, { handleRadioChange, ...props }) {
             return 'Unknown step';
     }
 }
-
-
-
 
 
 // const successMessage = (success) => {

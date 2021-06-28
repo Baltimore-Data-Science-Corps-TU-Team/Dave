@@ -17,6 +17,7 @@ import InfoIcon from '@material-ui/icons/Info';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { CARDPROPS } from '../constants';
+import { keys } from '@material-ui/core/styles/createBreakpoints';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,24 +40,18 @@ export function MapConfigGrid({ radioValue, handleRadioChange }) {
   const classes = useStyles();
   console.log("radioValue ->", radioValue)
 
-  const [selectedCard, setSelectedCard] = useState({
+  const [selectedCard, setSelectedCard] = useState('')
 
-    cluster: false,
-    points: false,
-    weapon: false,
-    heatmap: false,
-    region: false,
-    custom: false
-
-  })
   const handleSelected = (event) => {
     const key = event.target.alt
-    setSelectedCard({ key: true })
+    console.log("key->",key)
+    setSelectedCard(key)
+    
   }
 
   const handleOnClick = (event) => {
     handleRadioChange(event)
-    //handleSelected(event)
+    handleSelected(event)
     console.log(event.target.alt)
   }
 
@@ -66,6 +61,7 @@ export function MapConfigGrid({ radioValue, handleRadioChange }) {
         {CARDPROPS.map((card, index) => (
           <Grid key={index} item xs={6}>
             <MediaCard
+              selected={(selectedCard === card.value) ? true : false}
               img={card.img}
               title={card.title}
               description={card.tooltip}
@@ -77,7 +73,6 @@ export function MapConfigGrid({ radioValue, handleRadioChange }) {
       </Grid>
       <br />
     </div>
-    // <TitlebarGridList />
   );
 }
 

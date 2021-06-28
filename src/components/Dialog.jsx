@@ -8,9 +8,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Stepper from './Stepper';
-import RotateLeftRoundedIcon from '@material-ui/icons/RotateLeftRounded';
 import CloseIcon from '@material-ui/icons/Close';
-import { IconButton, ButtonGroup } from '@material-ui/core';
 import EditRoundedIcon from '@material-ui/icons/EditRounded';
 
 const useStyles = makeStyles((theme) => ({
@@ -32,8 +30,7 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-
-export default function FormDialog(props) {//{ crimeDescription handleCrimeDescriptionChange mapConfig handleMapConfigChange, ...props }
+export default function FormDialog(props) {
 
     const { toggleSuccess } = props;
     const classes = useStyles();

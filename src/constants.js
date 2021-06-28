@@ -54,11 +54,11 @@ const CARDPROPS = [
 ];
 
 const CRIME_OPTIONS = [
-  'HOMICIDE',
-  'ARSON',
-  'AUTO THEFT',
-  'ROBBERY',
-  'SHOPLIFTING'
+  'Homicide',
+  'Arson',
+  'Auto Theft',
+  'Robbery',
+  'Shoplifting'
 ];
 
 const CONFIGURATION = {
@@ -1687,6 +1687,5 @@ const CONFIGURATION = {
     }
   }
 }
-
 
 export { CARDPROPS, CONFIGURATION, CRIME_OPTIONS }

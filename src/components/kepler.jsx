@@ -41,7 +41,7 @@ export default function Kepler() {
         fetchedBoundaryDataFrame: undefined,
         mapConfiguration: undefined,
         radioValue: '',
-        crimeDescription: [],
+        crimeDescription: '',
         endDate: new Date(),
         startDate: new Date(),
         fetchedCrimeDataFrame: undefined
@@ -52,11 +52,10 @@ export default function Kepler() {
         const request = {
             startdate: format(new Date(state.startDate), "yyyy-MM-dd"),
             enddate: format(new Date(state.endDate), "yyyy-MM-dd"),
-            crime: state.crimeDescription[0]
+            crime: state.crimeDescription.toUpperCase()
         }
-
         const fetchedCrimeGeoJson = (await fetchCrimeGeoJson(request))
-        console.log("crimegeojson->", fetchedCrimeGeoJson)
+        //console.log("crimegeojson->", fetchedCrimeGeoJson)
         setState({
             ...state,
             fetchedCrimeDataFrame: processGeojson(fetchedCrimeGeoJson),
@@ -95,7 +94,7 @@ export default function Kepler() {
 
     return (
         <Provider store={store}>
-            <div style={mapOverlayStyle.wrapper} id="wrapper">
+            {/* <div style={mapOverlayStyle.wrapper} id="wrapper">
                 <div id="kepler-map">
                     <Map
                         fetchedBoundaryDataFrame={state.fetchedBoundaryDataFrame}
@@ -116,8 +115,8 @@ export default function Kepler() {
                         toggleLoading={toggleLoading}
                     />
                 </div>
-            </div>
-            {/* <FormDialog
+            </div> */}
+            <FormDialog
                 state={state}
                 handleStartDateChange={handleStartDateChange}
                 handleEndDateChange={handleEndDateChange}
@@ -126,7 +125,7 @@ export default function Kepler() {
                 handleSubmit={handleSubmit}
                 toggleSuccess={toggleSuccess}
                 toggleLoading={toggleLoading}
-            /> */}
+            />
         </Provider>
     )
 }

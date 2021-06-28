@@ -6,26 +6,24 @@ import { CRIME_OPTIONS } from '../constants';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        width: 500,
-        '& > * + *': {
-            marginTop: theme.spacing(1),
-        },
+        width: 'auto',
+        margin: theme.spacing(1),
+        // '& > * + *': {
+        //     marginTop: theme.spacing(1),
+        // },
     },
 }));
 
 export default function CrimeSelect({ crimeDescription, handleCrimeDescriptionChange }) {
-
     const classes = useStyles();
     console.log("crime description ->", crimeDescription)
 
     return (
         <div className={classes.root}>
             <Autocomplete
-                multiple
-                disableCloseOnSelect
                 filterSelectedOptions
                 size="small"
-                id="tags-outlined"
+                id="crime-description"
                 options={CRIME_OPTIONS}
                 getOptionLabel={(option) => option}
                 value={crimeDescription}
@@ -33,9 +31,9 @@ export default function CrimeSelect({ crimeDescription, handleCrimeDescriptionCh
                 renderInput={(params) => (
                     <TextField
                         {...params}
-                        variant="outlined"
-                        label="Select Crimes Options"
-                        placeholder="Offenses"
+                        variant="standard"
+                        label="Select Crime Options"
+                        placeholder="Crime"
                     />
                 )}
             />
