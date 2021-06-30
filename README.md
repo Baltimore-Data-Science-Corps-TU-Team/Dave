@@ -1,5 +1,3 @@
-# Getting Started with Create React App
-
 ## Run the App
 
 In the project directory, you can run:
@@ -10,7 +8,7 @@ Installs dependencies and creates yarn.lock file
 ### `yarn start`
 
 Runs the app in the development mode.\
-Open [http://localhost:3007](http://localhost:3007/kepler-app) to view it in the browser.
+Open [http://localhost:3007/kepler-app](http://localhost:3007/kepler-app) to view it in the browser.
 
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
