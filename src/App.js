@@ -1,4 +1,4 @@
-import Kepler from './components/Kepler'
+import Kepler from './components/kepler'
 import { Route, BrowserRouter as Router } from "react-router-dom";
 
 export default function App() {

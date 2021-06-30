@@ -2,7 +2,6 @@ import CustomImg from './map-config-jpg/Default.jpeg';
 import clusterImg from './map-config-jpg/Cluster.jpg';
 import PointsImg from './map-config-jpg/Points.jpg';
 import PointsByRegionImg from './map-config-jpg/Points-by-Region.jpg';
-import PointsByDescriptionImg from './map-config-jpg/Points-by-Description.jpg';
 import PointsByWeaponImg from './map-config-jpg/Points-by-Weapon.jpg';
 import HeatmapImg from './map-config-jpg/Heatmap.jpeg';
 
