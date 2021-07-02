@@ -10,19 +10,20 @@ import { getMapConfiguration } from '../utils';
 import { fetchCrimeGeoJson, fetchBoundaryGeoJson } from '../api';
 import { format } from 'date-fns';
 
+/* Kelper boiler plate reducer settings */
 const customKeplerReducer = keplerGlReducer.initialState({
     uiState: {
         currentModal: null
     }
 });
-
 const reducer = combineReducers({
     keplerGl: customKeplerReducer,
 });
-
 const store = createStore(reducer, {}, applyMiddleware(taskMiddleware));
 
+
 export default function Kepler() {
+    //styling for button over kepler map
     const mapOverlayStyle = {
         wrapper: {
             position: "relative",
@@ -35,6 +36,7 @@ export default function Kepler() {
         }
     };
 
+    //contain all controlled states
     const [state, setState] = useState({
         success: false,
         loading: false,
@@ -47,6 +49,7 @@ export default function Kepler() {
         fetchedCrimeDataFrame: undefined
     });
 
+    //get data from server
     const handleSubmit = async (event, newValue) => {
         event.preventDefault();
         const request = {
@@ -83,6 +86,7 @@ export default function Kepler() {
         setState({ ...state, startDate: date })
     }
 
+    //automatically load Baltimore boundary data to kepler component
     useEffect(() => {
         const fetchApi = async () => {
             const fetchedBoundaryGeoJson = await fetchBoundaryGeoJson()

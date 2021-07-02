@@ -16,38 +16,28 @@ const buttonStyles = makeStyles((theme) => ({
         width: 'auto',
         display: 'flex',
         alignItems: 'center',
-        margin: theme.spacing(1),
-        
+        margin: theme.spacing(1)
     },
     wrapper: {
-        //margin: theme.spacing(1),
         position: 'relative',
         width: 'auto',
         margin:'auto',
-        marginTop: theme.spacing(1),
+        marginTop: theme.spacing(1)
     },
     buttonSuccess: {
         backgroundColor: green[800],
         '&:hover': {
-            backgroundColor: green[900],
-        },
-        //marginLeft: theme.spacing(4),
+            backgroundColor: green[900]
+        }
     },
-    // fabProgress: {
-    //     color: green[500],
-    //     position: 'absolute',
-    //     top: -6,
-    //     left: -6,
-    //     zIndex: 1,
-    // },
     buttonProgress: {
         color: green[500],
         position: 'absolute',
         top: '50%',
         left: '50%',
         marginTop: -12,
-        marginLeft: -12,
-    },
+        marginLeft: -12
+    }
 }));
 
 const useStyles = makeStyles((theme) => ({
@@ -55,15 +45,15 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         flexDirection: 'column',
         margin: 'auto',
-        width: 'fit-content',
+        width: 'fit-content'
     },
     formControl: {
         marginTop: theme.spacing(0),
         minWidth: 120,
     },
     formControlLabel: {
-        marginTop: theme.spacing(1),
-    },
+        marginTop: theme.spacing(1)
+    }
 }));
 
 export default function DataSearchForm({ toggleSuccess, toggleLoading, handleSubmit, handleCrimeDescriptionChange, ...props }) {

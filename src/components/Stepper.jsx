@@ -27,54 +27,12 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const buttonStyles = makeStyles((theme) => ({
-    root: {
-        display: 'flex',
-        alignItems: 'center',
-    },
-    wrapper: {
-        margin: theme.spacing(1),
-        position: 'relative',
-    },
-    buttonSuccess: {
-        backgroundColor: green[800],
-        '&:hover': {
-            backgroundColor: green[900],
-        },
-        marginTop: theme.spacing(2),
-        marginRight: theme.spacing(1),
-    },
-    fabProgress: {
-        color: green[500],
-        position: 'absolute',
-        top: -6,
-        left: -6,
-        zIndex: 1,
-    },
-    buttonProgress: {
-        color: green[500],
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        marginTop: -12,
-        marginLeft: -12,
-    },
-}));
-
 export default function FormStepper({ activeStep, handleNext, handleBack, handleReset, ...props }) {
 
-    // const [loading, setLoading] = useState(false);
-    // const [success, setSuccess] = useState(false);
     const { loading, success } = props.state
-    //const { success } = props.state;
     const classes = useStyles();
-    const buttonClasses = buttonStyles();
 
-    const buttonClassname = clsx({
-        [buttonClasses.buttonSuccess]: success,
-    });
-
-    const steps = getSteps();
+    const steps = ['Filter your data search', 'Choose a map configuration']
 
     const customOnClick = (event) => {
         if (activeStep === 0) {
@@ -113,10 +71,6 @@ export default function FormStepper({ activeStep, handleNext, handleBack, handle
             </Stepper>
         </div>
     );
-}
-
-function getSteps() {
-    return ['Filter your data search', 'Choose a map configuration'];
 }
 
 function getStepContent(step, { handleRadioChange, ...props }) {

@@ -7,6 +7,7 @@ export default function Map({ fetchedBoundaryDataFrame, fetchedCrimeDataFrame, m
 
     const dispatch = useDispatch();
 
+    //memoize dataset objects 
     const boundaryDataset = useMemo(() => {
         return {
             info: {
@@ -41,7 +42,6 @@ export default function Map({ fetchedBoundaryDataFrame, fetchedCrimeDataFrame, m
         )
     }, [dispatch, boundaryDataset, crimeDataset, mapConfiguration])
 
-    console.log("env->", process.env.REACT_APP_MAPBOX_API)
     return (
         <div>
             <KeplerGl

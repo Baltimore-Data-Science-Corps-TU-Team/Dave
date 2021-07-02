@@ -7,11 +7,8 @@ import { CRIME_OPTIONS } from '../constants';
 const useStyles = makeStyles((theme) => ({
     root: {
         width: 'auto',
-        margin: theme.spacing(1),
-        // '& > * + *': {
-        //     marginTop: theme.spacing(1),
-        // },
-    },
+        margin: theme.spacing(1)
+    }
 }));
 
 export default function CrimeSelect({ crimeDescription, handleCrimeDescriptionChange }) {

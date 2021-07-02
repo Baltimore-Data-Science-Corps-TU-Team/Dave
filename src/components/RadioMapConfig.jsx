@@ -24,19 +24,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export function MapConfigGrid({ radioValue, handleRadioChange }) {
+export function MapConfigGrid({ handleRadioChange }) {
   const classes = useStyles();
 
   const [selectedCard, setSelectedCard] = useState('')
 
-  const handleSelected = (event) => {
+  const handleSelectedCard = (event) => {
     const key = event.target.alt
     setSelectedCard(key)
   }
 
   const handleOnClick = (event) => {
     handleRadioChange(event)
-    handleSelected(event)
+    handleSelectedCard(event)
   }
 
   return (
@@ -57,23 +57,6 @@ export function MapConfigGrid({ radioValue, handleRadioChange }) {
       </Grid>
       <br />
     </div>
-  );
-}
-
-export function RadioMapConfig({ radioValue, handleRadioChange }) {
-  
-  return (
-    <FormControl component="fieldset">
-      {/* <FormLabel component="legend">Map Configuration</FormLabel> */}
-      <RadioGroup aria-label="configurations" name="configurations" value={radioValue} onChange={handleRadioChange}>
-        <FormControlLabel value="cluster" control={<Radio />} label="Cluster Visualization" />
-        <FormControlLabel value="description" control={<Radio />} label="Points by description" />
-        <FormControlLabel value="weapon" control={<Radio />} label="Points by weapon" />
-        <FormControlLabel value="region" control={<Radio />} label="Points by region" />
-        <FormControlLabel value="point" control={<Radio />} label="Points Only" />
-        <FormControlLabel value="custom" control={<Radio />} label="Custom" />
-      </RadioGroup>
-    </FormControl>
   );
 }
 

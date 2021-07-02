@@ -14,7 +14,7 @@ const useStyles = makeStyles({
     },
 });
 
-export default function MediaCard({ img, title, value, tooltip, isSelected, handleOnClick, selected }) {
+export default function MediaCard({ img, title, value, tooltip, handleOnClick, selected }) {
     const classes = useStyles();
 
     return (
