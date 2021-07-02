@@ -17,6 +17,7 @@ export default function CrimeSelect({ crimeDescription, handleCrimeDescriptionCh
     return (
         <div className={classes.root}>
             <Autocomplete
+                disableCloseOnSelect
                 filterSelectedOptions
                 size="small"
                 id="crime-description"

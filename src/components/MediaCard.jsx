@@ -14,7 +14,7 @@ const useStyles = makeStyles({
     },
 });
 
-export default function MediaCard({ img, title, value, tooltip, handleOnClick, selected }) {
+export default function MediaCard({ img, title, value, tooltip, handleCardSelect, selected }) {
     const classes = useStyles();
 
     return (
@@ -26,7 +26,7 @@ export default function MediaCard({ img, title, value, tooltip, handleOnClick, s
                     className={classes.media}
                     image={img}
                     title={title}
-                    onClick={handleOnClick}
+                    onClick={handleCardSelect}
                 />
                 <CardContent>
                     <Typography variant="caption">
@@ -37,7 +37,3 @@ export default function MediaCard({ img, title, value, tooltip, handleOnClick, s
         </Card>
     );
 }
-
-// ["h1","h2","h3","h4","h5","h6",
-// "subtitle1","subtitle2","body1","body2",
-// "caption","button","overline","srOnly","inherit"]

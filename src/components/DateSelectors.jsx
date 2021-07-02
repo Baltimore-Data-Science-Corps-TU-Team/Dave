@@ -14,7 +14,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function DateSelectors({ handleEndDateChange, handleStartDateChange, ...props }) {
-
     const { startDate, endDate } = props.state
     const classes = useStyles();
 

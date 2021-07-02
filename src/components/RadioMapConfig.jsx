@@ -24,19 +24,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export function MapConfigGrid({ handleRadioChange }) {
+export function MapConfigGrid({ radioValue, handleRadioChange }) {
   const classes = useStyles();
 
-  const [selectedCard, setSelectedCard] = useState('')
-
-  const handleSelectedCard = (event) => {
-    const key = event.target.alt
-    setSelectedCard(key)
-  }
-
-  const handleOnClick = (event) => {
+  const handleCardSelect = (event) => {
     handleRadioChange(event)
-    handleSelectedCard(event)
   }
 
   return (
@@ -45,12 +37,12 @@ export function MapConfigGrid({ handleRadioChange }) {
         {CARDPROPS.map((card, index) => (
           <Grid key={index} item xs={6}>
             <MediaCard
-              selected={(selectedCard === card.value) ? true : false}
+              selected={(radioValue === card.value) ? true : false}
               img={card.img}
               title={card.title}
               description={card.tooltip}
               value={card.value}
-              handleOnClick={handleOnClick}
+              handleCardSelect={handleCardSelect}
             />
           </Grid>
         ))}
