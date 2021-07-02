@@ -1,6 +1,6 @@
 
 //const localUrl = 'http://localhost:3000'
-// const localCrimeData = './data/Part1_Crime_data_2021.geojson'
+const localCrimeData = './data/Part1_Crime_data_2021.geojson'
 // const covidData = './data/covid-19.json'
 const boundaries = './data/Crime_by_Boundary.geojson'
 
@@ -18,8 +18,8 @@ export const fetchBoundaryGeoJson = (startdate, enddate, crime) => {
 
 export const fetchCrimeGeoJson = (request) => {
     try {
-        const url = `${SERVER}/clusters?fromdate=${request.startdate}&todate=${request.enddate}&crime=${request.crime}`
-        const data = fetch(url)
+        const serverUrl = `${SERVER}/clusters?fromdate=${request.startdate}&todate=${request.enddate}&crime=${request.crime}`
+        const data = fetch(localCrimeData)
             .then(response => response.json())
         return data
     } catch (error) {

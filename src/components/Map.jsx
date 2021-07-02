@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import KeplerGl from 'kepler.gl';
 import { addDataToMap } from 'kepler.gl/actions';
@@ -7,23 +7,25 @@ export default function Map({ fetchedBoundaryDataFrame, fetchedCrimeDataFrame, m
 
     const dispatch = useDispatch();
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    const boundaryDataset = {
-        info: {
-            label: 'Boundaries',
-            id: '6kbq7nrmc'
-        },
-        data: fetchedBoundaryDataFrame
-    }
+    const boundaryDataset = useMemo(() => {
+        return {
+            info: {
+                label: 'Boundaries',
+                id: '6kbq7nrmc'
+            },
+            data: fetchedBoundaryDataFrame
+        }
+    }, [fetchedBoundaryDataFrame])
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    const crimeDataset = {
-        info: {
-            label: 'Crime',
-            id: 'ciaeceh0r'
-        },
-        data: fetchedCrimeDataFrame
-    }
+    const crimeDataset = useMemo(() => {
+        return {
+            info: {
+                label: 'Crime',
+                id: 'ciaeceh0r'
+            },
+            data: fetchedCrimeDataFrame
+        }
+    }, [fetchedCrimeDataFrame])
 
     useEffect(() => {
         dispatch(
@@ -39,7 +41,7 @@ export default function Map({ fetchedBoundaryDataFrame, fetchedCrimeDataFrame, m
         )
     }, [dispatch, boundaryDataset, crimeDataset, mapConfiguration])
 
-    console.log("env->",process.env.REACT_APP_MAPBOX_API)
+    console.log("env->", process.env.REACT_APP_MAPBOX_API)
     return (
         <div>
             <KeplerGl

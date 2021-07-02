@@ -30,8 +30,8 @@ export default function Kepler() {
         over_map: {
             position: "absolute",
             bottom: "280px",
-            right: "40px",
-            zIndex: 99
+            right: "14px",
+            zIndex: 9999
         }
     };
 
