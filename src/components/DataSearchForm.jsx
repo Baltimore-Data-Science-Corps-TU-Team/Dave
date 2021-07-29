@@ -9,7 +9,6 @@ import clsx from 'clsx';
 import SearchRoundedIcon from '@material-ui/icons/SearchRounded';
 import DoneRoundedIcon from '@material-ui/icons/DoneRounded';
 import { CircularProgress } from '@material-ui/core';
-import ErrorRoundedIcon from '@material-ui/icons/ErrorRounded';
 
 const buttonStyles = makeStyles((theme) => ({
     root: {

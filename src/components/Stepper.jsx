@@ -1,14 +1,12 @@
 import { makeStyles } from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
-import clsx from 'clsx';
 import StepLabel from '@material-ui/core/StepLabel';
 import StepContent from '@material-ui/core/StepContent';
 import Button from '@material-ui/core/Button';
 import DataSearchForm from './DataSearchForm';
 import { MapConfigGrid } from './RadioMapConfig';
 import { ButtonGroup } from '@material-ui/core';
-import { green } from '@material-ui/core/colors';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -29,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function FormStepper({ activeStep, handleNext, handleBack, handleReset, ...props }) {
 
-    const { loading, success } = props.state
+    //const { loading, success } = props.state
     const classes = useStyles();
 
     const steps = ['Filter your data search', 'Choose a map configuration']

@@ -68,7 +68,7 @@ export default function FormDialog(props) {
                 <DialogTitle id="form-dialog-title">Load a DataFrame</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        Choose a date range and a crime type. Data source is Baltimore Open Data.
+                        Choose a date range and crime type. The data source is 'Open Baltimore'.
                     </DialogContentText>
                     <Stepper
                         activeStep={activeStep}

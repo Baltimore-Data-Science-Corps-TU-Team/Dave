@@ -28,7 +28,7 @@ const CARDPROPS = [
   },
   {
     img: PointsImg,
-    title: 'Points Only',
+    title: 'All points',
     tooltip: 'author',
     value: 'points'
   },
@@ -53,11 +53,20 @@ const CARDPROPS = [
 ];
 
 const CRIME_OPTIONS = [
-  'Homicide',
+  'Agg. Assault',
   'Arson',
   'Auto Theft',
-  'Robbery',
-  'Shoplifting'
+  'Burglary',
+  'Common Assault',
+  'Homicide',
+  'Larceny',
+  'Larceny From Auto',
+  'Rape',
+  'Robbery - Carjacking',
+  'Robbery - Commercial',
+  'Robbery - Residence',
+  'Robbery - Street',
+  'Shooting'
 ];
 
 const CONFIGURATION = {
